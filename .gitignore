@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.env*
+!.env.example
+.openai/local/
+data/private/
+*.sqlite
+*.sqlite3
+__pycache__/
+.venv/
+test-results/
+playwright-report/
+tmp/
+
