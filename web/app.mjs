@@ -64,12 +64,13 @@ function setData(scenario, names) {
 }
 function badge(severity, label) { return el('span', { class: `badge ${severity}` }, icon(severity === 'error' ? 'circle' : severity === 'warning' ? 'alert' : 'check'), label ?? (severity === 'error' ? 'Chyba' : 'Upozornění')); }
 const number = n => new Intl.NumberFormat('cs-CZ').format(n);
+const countWord = (n, one, few, many) => `${number(n)} ${n === 1 ? one : n >= 2 && n <= 4 ? few : many}`;
 const sourceName = s => s === 'orders' ? 'Objednávky' : 'Expedice';
 function reviewed(f) { return Object.hasOwn(state.reviews, f.id); }
 function openCount() { return state.result.findings.filter(f => !reviewed(f)).length; }
 function metric(label, value, hint, type, symbol) { return el('article', { class: `metric ${type ?? ''}` }, el('div', { class: 'metric-label' }, label, icon(symbol)), el('div', { class: 'metric-value' }, number(value)), el('div', { class: 'metric-hint' }, hint)); }
 function sectionHeading(title, note) { return el('div', { class: 'section-heading' }, el('h2', {}, title), el('span', {}, note)); }
-function sources() { return el('div', { class: 'source-grid' }, ...['orders', 'shipments'].map((kind, i) => el('div', { class: 'source-card' }, el('span', { class: 'source-icon' }, icon('file')), el('div', {}, el('strong', {}, state.names[i]), el('small', {}, `${sourceName(kind)} · ${number(state.result[kind].length)} záznamů · CSV`)), el('span', {}, icon('check'), 'Načteno')))); }
+function sources() { return el('div', { class: 'source-grid' }, ...['orders', 'shipments'].map((kind, i) => el('div', { class: 'source-card' }, el('span', { class: 'source-icon' }, icon('file')), el('div', {}, el('strong', {}, state.names[i]), el('small', {}, `${sourceName(kind)} · ${countWord(state.result[kind].length, 'záznam', 'záznamy', 'záznamů')} · CSV`)), el('span', {}, icon('check'), 'Načteno')))); }
 function empty(title, message) { return el('div', { class: 'empty' }, el('span', { class: 'empty-icon' }, icon('check')), el('h3', {}, title), el('p', {}, message)); }
 function findingsRows(rows) {
   const table = el('table', {}, el('thead', {}, el('tr', {}, ...['ZÁVAŽNOST', 'NÁLEZ', 'ZÁZNAM / E-SHOP', 'STAV', ''].map(t => el('th', { scope: 'col' }, t)))));
@@ -82,7 +83,7 @@ function findingsRows(rows) {
 }
 function overview() {
   const s = state.result.stats;
-  const wrap = el('div', {}, el('section', { class: 'metrics', 'aria-label': 'Výsledky kontroly' }, metric('Objednávek v exportu', s.orderRows, `${number(s.shipmentRows)} záznamů expedice`, '', 'box'), metric('Nalezených chyb', s.errors, 'Vyžadují kontrolu zdroje', 'error', 'circle'), metric('Upozornění', s.warnings, 'Prověřte souvislosti', 'warning', 'alert'), metric('Spárované objednávky', s.matchedOrders, 'Mají alespoň jeden záznam expedice', 'success', 'link')), sectionHeading('Vstupní soubory', 'Původní hodnoty zůstávají zachované'), sources());
+  const wrap = el('div', {}, el('section', { class: 'metrics', 'aria-label': 'Výsledky kontroly' }, metric('Objednávek v exportu', s.orderRows, `${countWord(s.shipmentRows, 'záznam', 'záznamy', 'záznamů')} expedice`, '', 'box'), metric('Nalezených chyb', s.errors, 'Vyžadují kontrolu zdroje', 'error', 'circle'), metric('Upozornění', s.warnings, 'Prověřte souvislosti', 'warning', 'alert'), metric('Spárované objednávky', s.matchedOrders, 'Mají alespoň jeden záznam expedice', 'success', 'link')), sectionHeading('Vstupní soubory', 'Původní hodnoty zůstávají zachované'), sources());
   const panel = el('section', { class: 'panel', 'aria-label': 'Nálezy k prověření' }, el('div', { class: 'panel-heading' }, el('div', {}, el('h2', {}, 'Co potřebuje vaši pozornost'), el('p', {}, `${openCount()} otevřených nálezů · začněte chybami a pokračujte upozorněními`)), el('a', { class: 'text-button', href: '#findings' }, 'Všechny nálezy →')));
   const open = state.result.findings.filter(f => !reviewed(f));
   panel.append(open.length ? findingsRows(open.slice(0, 5)) : empty(state.result.findings.length ? 'Všechny nálezy jsou prověřené' : 'V tomto exportu je vše v pořádku', state.result.findings.length ? 'Poznámky jsou uložené. Zdrojová data tím nejsou opravená.' : 'Kontrolní pravidla v dodaných datech nenašla nesrovnalosti.'));
@@ -131,7 +132,7 @@ function render() {
   $('page-description').textContent = { overview: 'Najděte nesrovnalosti dřív, než se z nich stanou problémy.', findings: 'Každý nález má vysvětlení, zdroj a prostor pro vaše rozhodnutí.', data: 'Původní záznamy, přesně tak, jak byly načteny.', rules: 'Srozumitelná pravidla. Stejná data, stejný výsledek.' }[state.view];
   document.title = `${title} — DataDesk`;
   $('nav-count').textContent = openCount();
-  $('run-description').textContent = `${state.scenario.name} · ${number(state.result.stats.orderRows + state.result.stats.shipmentRows)} vstupních záznamů · výpočet ${state.duration.toFixed(1).replace('.', ',')} ms`;
+  $('run-description').textContent = `${state.scenario.name} · ${countWord(state.result.stats.orderRows + state.result.stats.shipmentRows, 'vstupní záznam', 'vstupní záznamy', 'vstupních záznamů')} · výpočet ${state.duration.toFixed(1).replace('.', ',')} ms`;
   document.querySelectorAll('[data-view]').forEach(a => { a.classList.toggle('active', a.dataset.view === state.view); if (a.dataset.view === state.view) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
   $('content').replaceChildren(state.view === 'overview' ? overview() : state.view === 'findings' ? findingsView() : state.view === 'data' ? dataView() : rulesView());
   if (focus && $(focus) && ['findings-search', 'data-search'].includes(focus)) { $(focus).focus(); if (typeof selection === 'number') $(focus).setSelectionRange(selection, selection); }
@@ -171,7 +172,8 @@ $('menu-toggle').addEventListener('click', () => { const visible = $('sidebar').
 function navigate() { const view = location.hash.slice(1); state.view = ['overview', 'findings', 'data', 'rules'].includes(view) ? view : 'overview'; $('sidebar').classList.remove('visible'); $('menu-toggle').setAttribute('aria-expanded', 'false'); if (state.result) render(); }
 window.addEventListener('hashchange', navigate);
 document.addEventListener('click', event => { if (window.innerWidth <= 900 && !$('sidebar').contains(event.target) && !$('menu-toggle').contains(event.target)) { $('sidebar').classList.remove('visible'); $('menu-toggle').setAttribute('aria-expanded', 'false'); } });
-$('samples-button').addEventListener('click', () => { const sample = getScenario('issues'); download('objednavky_vzor.csv', toCSV(sample.orders, ORDER_COLUMNS), 'text/csv;charset=utf-8'); setTimeout(() => download('expedice_vzor.csv', toCSV(sample.shipments, SHIPMENT_COLUMNS), 'text/csv;charset=utf-8'), 250); toast('Dva vzorové soubory jsou připravené ke stažení.'); });
+$('samples-orders').addEventListener('click', () => { const sample = getScenario('issues'); download('objednavky_vzor.csv', toCSV(sample.orders, ORDER_COLUMNS), 'text/csv;charset=utf-8'); });
+$('samples-shipments').addEventListener('click', () => { const sample = getScenario('issues'); download('expedice_vzor.csv', toCSV(sample.shipments, SHIPMENT_COLUMNS), 'text/csv;charset=utf-8'); });
 $('import-form').addEventListener('submit', async event => {
   event.preventDefault(); const button = event.target.querySelector('[type=submit]'); $('import-error').textContent = ''; button.disabled = true;
   try {
