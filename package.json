@@ -1,0 +1,15 @@
+{
+  "name": "datadesk",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A reproducible data quality and order reconciliation portfolio application.",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "test": "node --test",
+    "benchmark": "node scripts/benchmark.mjs",
+    "demo:report": "node scripts/cli.mjs",
+    "build": "node scripts/build.mjs"
+  }
+}
