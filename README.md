@@ -2,6 +2,8 @@
 
 DataDesk is a Czech portfolio application for reconciling fictional order and shipment exports. It turns raw CSV data into explainable findings with source-row provenance. The same validation engine runs in the browser and a Node CLI.
 
+![DataDesk overview](docs/preview.png)
+
 ## What it demonstrates
 
 - Deterministic validation: missing and orphaned shipments, duplicate and conflicting IDs, quantity and date checks, invalid fields, and currency-separated totals.
