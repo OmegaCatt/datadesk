@@ -1,8 +1,10 @@
 # Current status
 
-Updated: 2026-10-29
+Updated: 2026-10-30
 
 ## Completed
+
+- README now presents the application in Czech first, followed by an English description for GitHub visitors.
 - First usable portfolio release with fictional data, a Czech responsive interface, CSV import/export, JSON report, source provenance and review notes.
 - Shared browser and Node CLI reconciliation engine.
 - 32 automated tests passing; normal and duplicate-heavy 20,000 + 20,000 row scenarios measured.

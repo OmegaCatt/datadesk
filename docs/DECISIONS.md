@@ -8,3 +8,7 @@
 - Create a dedicated local Git repository. External GitHub publication is not assumed.
 - Defer additional formats until core reconciliation has meaningful tests.
 
+## 2026-10-30: Bilingual repository description
+
+Keep Czech first in the GitHub README and add an English section with the same product scope. The app interface remains Czech; the English text explains it to international employers without claiming an English UI.
+
