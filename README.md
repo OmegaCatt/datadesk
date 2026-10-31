@@ -11,7 +11,7 @@
 ### Co aplikace ukazuje
 
 - Odhaluje chybějící a nepřiřazené zásilky, duplicitní a rozporná ID, nesoulad množství a dat, neplatná pole a součty oddělené podle měny.
-- Umožňuje místní import CSV, prohlížení zdrojových záznamů, filtrování zjištění, poznámky ke kontrole a export do CSV nebo JSON. Poznámky nemění zjištění ani původní data.
+- Umožňuje místní import CSV, prohlížení zdrojových záznamů, filtrování zjištění, poznámky ke kontrole a export do CSV nebo JSON. Samostatný CSV seznam otevřených úkolů obsahuje prioritu a odkazy na zdrojové řádky. Poznámky nemění zjištění ani původní data.
 - Omezuje velikost a strukturu importů, odmítá vyhrazené názvy sloupců, bezpečně zobrazuje text a při exportu neutralizuje vzorce, které by mohl spustit tabulkový procesor.
 - Obsahuje automatizované testy a reprodukovatelný benchmark se 20 000 objednávkami a 20 000 zásilkami včetně scénáře s mnoha duplicitami.
 
@@ -49,7 +49,7 @@ DataDesk is a Czech portfolio application for reconciling fictional order and sh
 ### What it demonstrates
 
 - Deterministic validation: missing and orphaned shipments, duplicate and conflicting IDs, quantity and date checks, invalid fields, and currency-separated totals.
-- Browser-local CSV import, source inspection, findings filters, review notes, and CSV/JSON exports. Review notes never change findings or original data.
+- Browser-local CSV import, source inspection, findings filters, review notes, and CSV/JSON exports. A separate open-issues CSV queue includes priority and source-row references. Review notes never change findings or original data.
 - Defensive CSV parsing and export: schema and size limits, reserved-header rejection, safe text rendering, and spreadsheet-formula neutralization.
 - Reproducible tests and a 20,000 + 20,000 row benchmark, including a duplicate-heavy case.
 

@@ -1,4 +1,4 @@
-import { reconcile, parseCSV, toCSV, RULES, MAX_FILE_BYTES } from './engine.mjs';
+import { reconcile, parseCSV, toCSV, openWorkQueue, RULES, MAX_FILE_BYTES } from './engine.mjs';
 import { getScenario, ORDER_COLUMNS, SHIPMENT_COLUMNS } from './datasets.mjs';
 
 const $ = id => document.getElementById(id);
@@ -193,6 +193,11 @@ $('import-form').addEventListener('submit', async event => {
 $('csv-export').addEventListener('click', () => {
   const rows = state.result.findings.map(f => ({ severity: f.severity, rule: f.code, title: f.title, description: f.message, records: f.rows.map(r => `${sourceName(r.source)}:${r.row}:${r.shop}/${r.id}`).join(' | '), review_status: reviewed(f) ? 'Prověřeno, data nezměněna' : 'K prověření', review_note: state.reviews[f.id]?.note ?? '' }));
   download('datadesk_nalezy.csv', toCSV(rows, ['severity', 'rule', 'title', 'description', 'records', 'review_status', 'review_note']), 'text/csv;charset=utf-8'); toast('CSV protokol byl připraven ke stažení.');
+});
+$('queue-export').addEventListener('click', () => {
+  const rows = openWorkQueue(state.result, state.reviews);
+  download('datadesk_k_provereni.csv', toCSV(rows, ['priority', 'rule', 'title', 'description', 'records', 'next_step']), 'text/csv;charset=utf-8');
+  toast(`Seznam ${rows.length} otevřených nálezů je připraven ke stažení.`);
 });
 $('json-export').addEventListener('click', () => { download('datadesk_protokol.json', JSON.stringify(report(), null, 2), 'application/json;charset=utf-8'); toast('Kompletní protokol byl připraven ke stažení.'); });
 $('reset-reviews').addEventListener('click', () => { state.reviews = {}; state.history = []; persistReviews(); render(); $('about-dialog').close(); toast('Uložená prověření této kontroly byla smazána.'); });

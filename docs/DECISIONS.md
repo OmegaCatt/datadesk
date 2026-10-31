@@ -1,5 +1,9 @@
 # Decisions
 
+## 2026-10-31: Open work queue
+
+Export unreviewed findings as a separate CSV queue with priority and source references. Keep the complete findings export and original reconciliation result intact. Review status reflects human triage, never data correction. Use the existing spreadsheet-safe CSV writer for both exports.
+
 ## 2026-10-29
 - Build an entirely new portfolio; no dependency on prior applications.
 - First deliverable uses fictional demonstration data, per user choice.

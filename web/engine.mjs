@@ -75,6 +75,17 @@ export function toCSV(rows, columns) {
   const quote = s => '"' + spreadsheetSafe(s).replaceAll('"', '""') + '"';
   return '\uFEFF' + [columns.map(quote).join(';'), ...rows.map(row => columns.map(k => quote(row[k])).join(';'))].join('\r\n');
 }
+
+export function openWorkQueue(result, reviews = {}) {
+  return result.findings.filter(finding => !Object.hasOwn(reviews, finding.id)).map(finding => ({
+    priority: finding.severity === 'error' ? '1 - chyba' : '2 - upozornění',
+    rule: finding.code,
+    title: finding.title,
+    description: finding.message,
+    records: finding.rows.map(row => `${row.source}:${row.row}:${row.shop}/${row.id}`).join(' | '),
+    next_step: 'Ověřit zdrojová data a zaznamenat výsledek kontroly',
+  }));
+}
 const clean = value => String(value ?? '').trim();
 const key = (shop, id) => JSON.stringify([shop, id]);
 const group = (rows, fn) => { const m = new Map(); for (const row of rows) { const k = fn(row); if (k) { if (!m.has(k)) m.set(k, []); m.get(k).push(row); } } return m; };

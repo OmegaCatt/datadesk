@@ -1,6 +1,18 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { reconcile, parseCSV, parseDate, parseMoney, parseQuantity, toCSV, spreadsheetSafe, MAX_ROWS } from '../web/engine.mjs';
+import { reconcile, parseCSV, parseDate, parseMoney, parseQuantity, toCSV, spreadsheetSafe, openWorkQueue, MAX_ROWS } from '../web/engine.mjs';
+
+test('work queue keeps only unresolved findings and preserves source references safely', () => {
+  const result = reconcile(getScenario().orders, getScenario().shipments);
+  const first = result.findings[0];
+  const queue = openWorkQueue(result, { [first.id]: { note: 'Checked' } });
+  assert.equal(queue.length, result.findings.length - 1);
+  assert.ok(queue.every(item => item.records.includes(':')));
+  assert.ok(queue.every(item => item.priority.startsWith('1') || item.priority.startsWith('2')));
+  assert.ok(!queue.some(item => item.rule === first.code && item.title === first.title && item.records === first.rows.map(row => `${row.source}:${row.row}:${row.shop}/${row.id}`).join(' | ')));
+  const csv = toCSV([{ ...queue[0], title: '=HYPERLINK("unsafe")' }], ['title']);
+  assert.match(csv, /'=HYPERLINK/);
+});
 import { getScenario, makeDataset, ORDER_COLUMNS, SHIPMENT_COLUMNS } from '../web/datasets.mjs';
 const codes = r => r.findings.map(f => f.code);
 const run = (mutate) => { const d = makeDataset(3); mutate?.(d); return reconcile(d.orders, d.shipments); };
