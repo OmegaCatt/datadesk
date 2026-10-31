@@ -105,8 +105,9 @@ function overview() {
 function selectFilter(id, value, options, callback) { const select = el('select', { id, class: 'filter-select', 'aria-label': id === 'severity-filter' ? 'Filtrovat závažnost' : 'Filtrovat stav' }, ...options.map(([v, label]) => el('option', { value: v }, label))); select.value = value; select.addEventListener('change', () => callback(select.value)); return select; }
 function searchBox(id, value, placeholder, callback) { const input = el('input', { id, type: 'search', placeholder, 'aria-label': placeholder, maxlength: 150 }); input.value = value; input.addEventListener('input', () => callback(input.value)); return el('label', { class: 'search' }, icon('search'), input); }
 function pager(current, pages, callback) { return el('div', { class: 'page-controls' }, el('button', { 'aria-label': 'Předchozí stránka', disabled: current <= 1, onclick: () => callback(current - 1) }, '←'), `${current} / ${Math.max(1, pages)}`, el('button', { 'aria-label': 'Další stránka', disabled: current >= pages, onclick: () => callback(current + 1) }, '→')); }
+function filteredFindings() { return state.result.findings.filter(f => (state.severity === 'all' || f.severity === state.severity) && (state.reviewFilter === 'all' || reviewed(f) === (state.reviewFilter === 'reviewed')) && `${f.title} ${f.code} ${f.rows.map(r => `${r.id} ${r.shop}`).join(' ')}`.toLocaleLowerCase('cs').includes(state.query.toLocaleLowerCase('cs'))); }
 function findingsView() {
-  const filtered = state.result.findings.filter(f => (state.severity === 'all' || f.severity === state.severity) && (state.reviewFilter === 'all' || reviewed(f) === (state.reviewFilter === 'reviewed')) && `${f.title} ${f.code} ${f.rows.map(r => `${r.id} ${r.shop}`).join(' ')}`.toLocaleLowerCase('cs').includes(state.query.toLocaleLowerCase('cs')));
+  const filtered = filteredFindings();
   const perPage = 12, pages = Math.ceil(filtered.length / perPage); state.page = Math.max(1, Math.min(state.page, pages || 1));
   const panel = el('section', { class: 'panel' }, el('div', { class: 'panel-heading' }, el('div', {}, el('h2', {}, 'Všechny nálezy'), el('p', {}, `${state.result.findings.length} nálezů celkem · ${openCount()} čeká na prověření`))));
   panel.append(el('div', { class: 'toolbar' }, searchBox('findings-search', state.query, 'Hledat nález, ID nebo e-shop…', v => { state.query = v; state.page = 1; render(); }), selectFilter('severity-filter', state.severity, [['all', 'Všechny závažnosti'], ['error', 'Jen chyby'], ['warning', 'Jen upozornění']], v => { state.severity = v; state.page = 1; render(); }), selectFilter('review-filter', state.reviewFilter, [['all', 'Všechny stavy'], ['open', 'K prověření'], ['reviewed', 'Prověřeno']], v => { state.reviewFilter = v; state.page = 1; render(); })));
@@ -190,10 +191,10 @@ $('import-form').addEventListener('submit', async event => {
   } catch (error) { $('import-error').textContent = error instanceof Error ? error.message : 'Soubory se nepodařilo zpracovat.'; }
   finally { button.disabled = false; }
 });
-$('csv-export').addEventListener('click', () => {
-  const rows = state.result.findings.map(f => ({ severity: f.severity, rule: f.code, title: f.title, description: f.message, records: f.rows.map(r => `${sourceName(r.source)}:${r.row}:${r.shop}/${r.id}`).join(' | '), review_status: reviewed(f) ? 'Prověřeno, data nezměněna' : 'K prověření', review_note: state.reviews[f.id]?.note ?? '' }));
-  download('datadesk_nalezy.csv', toCSV(rows, ['severity', 'rule', 'title', 'description', 'records', 'review_status', 'review_note']), 'text/csv;charset=utf-8'); toast('CSV protokol byl připraven ke stažení.');
-});
+const findingColumns = ['severity', 'rule', 'title', 'description', 'records', 'review_status', 'review_note'];
+function findingExportRows(findings) { return findings.map(f => ({ severity: f.severity, rule: f.code, title: f.title, description: f.message, records: f.rows.map(r => `${sourceName(r.source)}:${r.row}:${r.shop}/${r.id}`).join(' | '), review_status: reviewed(f) ? 'Prověřeno, data nezměněna' : 'K prověření', review_note: state.reviews[f.id]?.note ?? '' })); }
+$('csv-export').addEventListener('click', () => { download('datadesk_nalezy.csv', toCSV(findingExportRows(state.result.findings), findingColumns), 'text/csv;charset=utf-8'); toast('CSV protokol byl připraven ke stažení.'); });
+$('filtered-export').addEventListener('click', () => { const rows = findingExportRows(filteredFindings()); download('datadesk_vyber_nalezu.csv', toCSV(rows, findingColumns), 'text/csv;charset=utf-8'); toast(`Výběr ${rows.length} nálezů je připraven ke stažení.`); });
 $('queue-export').addEventListener('click', () => {
   const rows = openWorkQueue(state.result, state.reviews);
   download('datadesk_k_provereni.csv', toCSV(rows, ['priority', 'rule', 'title', 'description', 'records', 'next_step']), 'text/csv;charset=utf-8');

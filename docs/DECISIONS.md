@@ -1,5 +1,9 @@
 # Decisions
 
+## 2026-10-31: Explain the implementation and export the active selection
+
+Show a native expandable technical note in the interface so the data flow and limits are inspectable without leaving the app. Add a CSV export derived from the same severity, review, and search filters as the findings view. Export every matching row across pagination, while keeping the complete report and separate open-work queue available.
+
 ## 2026-10-31: Open work queue
 
 Export unreviewed findings as a separate CSV queue with priority and source references. Keep the complete findings export and original reconciliation result intact. Review status reflects human triage, never data correction. Use the existing spreadsheet-safe CSV writer for both exports.

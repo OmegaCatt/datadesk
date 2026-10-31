@@ -1,5 +1,9 @@
 # Verification record — 2026-10-29
 
+## Regression check — 2026-10-31
+
+After the filtered-export and technical-note update, `node --test` passed 33/33. Browser QA opened the technical note, selected error findings, downloaded the filtered CSV with eight findings plus header, and checked the 390 px viewport for horizontal overflow. This check does not cover every possible imported CSV.
+
 ## Functionality
 
 - Node test runner: 32 tests passed, 0 failed after the duplicate-group fix. Coverage includes reconciliation outcomes, invalid dates and money, CSV quoting/schema, formula-safe export, input immutability and duplicate-heavy groups.

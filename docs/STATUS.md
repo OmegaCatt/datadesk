@@ -4,6 +4,8 @@ Updated: 2026-10-31
 
 ## Completed
 
+- Added an expandable implementation note and a CSV export of the current findings selection across all pages. Browser QA verified the error filter downloads eight findings, with no horizontal overflow at 390 px. The full 33-test suite passes.
+
 - Added a separate CSV queue of unreviewed findings with priority and source references. The queue is derived from immutable findings and current review notes; 33 automated tests pass.
 - Browser check downloaded the 12-item queue from the seeded scenario. The latest local Node 24 benchmark median was 93 ms for 10,000 orders plus 10,000 shipments and 190.76 ms for 20,000 plus 20,000 (five samples, device-specific).
 
