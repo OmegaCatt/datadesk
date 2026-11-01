@@ -1,5 +1,9 @@
 # Decisions
 
+## 2026-11-01: Document a realistic adoption path
+
+Keep the GitHub README explicit about the implemented browser/CLI workflow and technology. Separate proposed company integrations, shared review history, and access control from features already present. Preserve fictional examples and the distinction between findings and human review notes.
+
 ## 2026-10-31: Explain the implementation and export the active selection
 
 Show a native expandable technical note in the interface so the data flow and limits are inspectable without leaving the app. Add a CSV export derived from the same severity, review, and search filters as the findings view. Export every matching row across pagination, while keeping the complete report and separate open-work queue available.

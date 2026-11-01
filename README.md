@@ -16,6 +16,18 @@
 - Omezuje velikost a strukturu importů, odmítá vyhrazené názvy sloupců, bezpečně zobrazuje text a při exportu neutralizuje vzorce, které by mohl spustit tabulkový procesor.
 - Obsahuje automatizované testy a reprodukovatelný benchmark se 20 000 objednávkami a 20 000 zásilkami včetně scénáře s mnoha duplicitami.
 
+### Jak se používá a co bylo použito
+
+1. Vyberte připravený scénář, nebo nahrajte export objednávek a zásilek jako dvě CSV. Aplikace před kontrolou ověří strukturu a velikost vstupu.
+2. Projděte souhrn a seznam zjištění. Filtrujte podle závažnosti a otevřete původní řádky; u sporných případů přidejte poznámku ke kontrole.
+3. Exportujte všechna nebo filtrovaná zjištění do CSV/JSON, případně samostatný seznam otevřených úkolů. Stejná pravidla lze spustit z CLI pro opakovatelný report.
+
+Použito je **JavaScript ES modules, HTML/CSS, Node.js, vlastní CSV parser a vestavěný `node:test`**. Kontroly jsou pravidlové, bez LLM a bez odesílání importovaných dat na server. Kód pro načtení, párování a report je sdílený mezi prohlížečem a CLI; není tu Python, SQL, databáze ani napojení na e-shop.
+
+### Jak by šlo řešení zavést ve firmě
+
+Prvním krokem by byl schválený vzorek anonymizovaných exportů a společná definice identifikátorů, stavů objednávek a výjimek. Pak by se pravidla ověřila proti známým případům, nastavily hranice a zodpovědnost za řešení nálezů. CLI lze použít jako základ pravidelné kontroly exportů; pro týmovou práci by bylo potřeba doplnit bezpečné sdílené úložiště, přihlášení, historii oprav a provozní monitoring. Konektor na firemní systémy a plánované spouštění jsou **možná rozšíření**, nikoli funkce této ukázky.
+
 ### Spuštění
 
 Vyžaduje Node.js 22 nebo novější. Nemá balíčkové závislosti ani API klíče.
@@ -54,6 +66,16 @@ DataDesk is a Czech portfolio application for reconciling fictional order and sh
 - An expandable in-app note explains the technologies, data flow, and demo limits.
 - Defensive CSV parsing and export: schema and size limits, reserved-header rejection, safe text rendering, and spreadsheet-formula neutralization.
 - Reproducible tests and a 20,000 + 20,000 row benchmark, including a duplicate-heavy case.
+
+### Workflow and implementation
+
+Choose a fictional scenario or import separate orders and shipments CSV files. Inspect and filter findings, open the source rows, add review notes, then export CSV/JSON or an open-issues queue. The same rules can generate a repeatable report from the CLI.
+
+The implemented stack is **JavaScript ES modules, HTML/CSS, Node.js, a custom CSV parser, and built-in `node:test`**. Reconciliation is deterministic; imported files stay in the browser. There is no LLM, Python, SQL, database, or live commerce integration.
+
+### Possible company adoption
+
+Start with approved anonymized exports and agree on IDs, order states, and exception rules. Validate findings against known cases before scheduling CLI reports. Teamwide use would additionally require access control, shared storage, review history, monitoring, and a maintained source-system connector. These are proposed extensions, not current features.
 
 ### Run locally
 

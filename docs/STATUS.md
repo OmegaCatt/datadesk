@@ -1,8 +1,10 @@
 # Current status
 
-Updated: 2026-10-31
+Updated: 2026-11-01
 
 ## Completed
+
+- Expanded the Czech and English GitHub README with a practical workflow, actual stack, and a scoped company adoption path. Re-ran `node --test`: 33/33 passed. No runtime behavior changed.
 
 - Added an expandable implementation note and a CSV export of the current findings selection across all pages. Browser QA verified the error filter downloads eight findings, with no horizontal overflow at 390 px. The full 33-test suite passes.
 
