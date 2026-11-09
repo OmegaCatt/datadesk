@@ -2,15 +2,18 @@ export const ENGINE_VERSION = '0.1.0';
 export const MAX_ROWS = 20000;
 export const MAX_FILE_BYTES = 2_000_000;
 
-export function parseDate(value) {
+export const DATE_FORMATS = ['auto','iso','dmy-dot','dmy-slash','mdy-slash'];
+export function parseDate(value, format='auto') {
+  if(!DATE_FORMATS.includes(format))throw Error('Neplatný datumový formát.');
   const s = String(value ?? '').trim();
-  let parts = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
+  let parts = (format==='auto'||format==='iso')&&/^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
   let y, m, d;
   if (parts) [, y, m, d] = parts;
   else {
-    parts = /^(\d{1,2})\.(\d{1,2})\.(\d{4})$/.exec(s);
+    parts = (format==='auto'||format==='dmy-dot')?/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/.exec(s):['dmy-slash','mdy-slash'].includes(format)?/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(s):null;
     if (!parts) return null;
     [, d, m, y] = parts;
+    if(format==='mdy-slash')[d,m]=[m,d];
   }
   y = Number(y); m = Number(m); d = Number(d);
   if (y < 1900 || y > 2200 || m < 1 || m > 12 || d < 1 || d > 31) return null;
@@ -32,14 +35,15 @@ export function parseQuantity(value) {
   return /^[1-9]\d{0,5}$/.test(s) ? Number(s) : null;
 }
 
-export function parseCSV(text) {
+export function parseCSV(text, delimiter='auto') {
+  if(!['auto',';',',','\t','|'].includes(delimiter))throw Error('Neplatný oddělovač CSV.');
   if (typeof text !== 'string' || new TextEncoder().encode(text).length > MAX_FILE_BYTES) throw new Error('Soubor překračuje limit 2 MB.');
   text = text.replace(/^\uFEFF/, '');
   if (!text.trim()) throw new Error('Soubor je prázdný.');
   let first = '', quoted = false;
   for (const c of text) { if (c === '"') quoted = !quoted; if ((c === '\n' || c === '\r') && !quoted) break; first += c; }
   const count = (sep) => { let n = 0, q = false; for (const c of first) { if (c === '"') q = !q; else if (!q && c === sep) n++; } return n; };
-  const separator = [';', ',', '\t'].sort((a, b) => count(b) - count(a))[0];
+  const separator = delimiter==='auto'?[';', ',', '\t'].sort((a, b) => count(b) - count(a))[0]:delimiter;
   const records = []; let cells = [], field = '', inQuote = false, closed = false, line = 1, start = 1;
   const finishField = () => { cells.push(field); field = ''; closed = false; };
   const finishRecord = () => { finishField(); if (cells.some(c => c.trim())) records.push({ cells, line: start }); cells = []; if (records.length > MAX_ROWS + 1) throw new Error(`Maximum je ${MAX_ROWS} datových řádků.`); };
@@ -60,7 +64,7 @@ export function parseCSV(text) {
   if (field || cells.length || closed) finishRecord();
   const headers = records.shift()?.cells.map(s => s.trim());
   if (!headers?.length || headers.some(h => !h) || new Set(headers).size !== headers.length) throw new Error('CSV musí mít neprázdné, unikátní názvy sloupců.');
-  if (headers.some(h => ['__proto__', 'prototype', 'constructor', '__line'].includes(h))) throw new Error('Nepovolený název sloupce.');
+  if (headers.some(h => ['__proto__', 'prototype', 'constructor', '__line','__dateFormat'].includes(h))) throw new Error('Nepovolený název sloupce.');
   return records.map(({ cells, line: sourceLine }) => {
     if (cells.length !== headers.length) throw new Error(`Řádek ${sourceLine}: očekáváno ${headers.length} sloupců, nalezeno ${cells.length}.`);
     return Object.assign(Object.create(null), Object.fromEntries(headers.map((h, i) => [h, cells[i]])), { __line: sourceLine });
@@ -112,6 +116,7 @@ export function reconcile(inputOrders, inputShipments) {
     if (!rows.length) throw new Error(`${label}: soubor neobsahuje žádné datové řádky.`);
     if (rows.some(row => !row || typeof row !== 'object' || Array.isArray(row))) throw new Error(`${label}: neplatný záznam.`);
     if (rows.some(row => row.__line !== undefined && (!Number.isSafeInteger(row.__line) || row.__line<1 || row.__line>MAX_FILE_BYTES+1))) throw new Error(`${label}: neplatné číslo řádku zdroje.`);
+    if(rows.some(row=>row.__dateFormat!==undefined&&!DATE_FORMATS.includes(row.__dateFormat)))throw Error('Neplatný datumový formát zdroje.');
     const missing = fields.filter(f => rows.some(row => !Object.hasOwn(row, f)));
     if (missing.length) throw new Error(`${label}: chybí sloupce ${missing.join(', ')}.`);
     if (rows.some(row => fields.some(f => typeof row[f] === 'object' && row[f] !== null))) throw new Error(`${label}: buňka musí obsahovat jednoduchou hodnotu.`);
@@ -123,8 +128,8 @@ export function reconcile(inputOrders, inputShipments) {
   const add = (code, severity, title, message, rows, orderKey = null) => {
     findings.push({ id: `${code}:${rows.map(r => `${r.source}-${r.row}`).join('-')}`, code, severity, title, message, rows: rows.map(rowRef), orderKey });
   };
-  const orders = inputOrders.map((raw, i) => ({ source: 'orders', row: i + 2, line: raw.__line ?? i + 2, id: clean(raw.order_id), shop: clean(raw.shop), date: parseDate(raw.ordered_at), cents: parseMoney(raw.amount), currency: clean(raw.currency).toUpperCase(), quantity: parseQuantity(raw.quantity), raw: { ...raw } }));
-  const shipments = inputShipments.map((raw, i) => ({ source: 'shipments', row: i + 2, line: raw.__line ?? i + 2, id: clean(raw.shipment_id), shop: clean(raw.shop), orderId: clean(raw.order_id), date: parseDate(raw.shipped_at), quantity: parseQuantity(raw.quantity), raw: { ...raw } }));
+  const orders = inputOrders.map((raw, i) => ({ source: 'orders', row: i + 2, line: raw.__line ?? i + 2, id: clean(raw.order_id), shop: clean(raw.shop), date: parseDate(raw.ordered_at,raw.__dateFormat), cents: parseMoney(raw.amount), currency: clean(raw.currency).toUpperCase(), quantity: parseQuantity(raw.quantity), raw: { ...raw } }));
+  const shipments = inputShipments.map((raw, i) => ({ source: 'shipments', row: i + 2, line: raw.__line ?? i + 2, id: clean(raw.shipment_id), shop: clean(raw.shop), orderId: clean(raw.order_id), date: parseDate(raw.shipped_at,raw.__dateFormat), quantity: parseQuantity(raw.quantity), raw: { ...raw } }));
   for (const r of orders) {
     const k = r.id && r.shop ? key(r.shop, r.id) : null;
     if (!k) add('REQUIRED', 'error', 'Chybí identifikátor', 'Objednávka potřebuje ID i e-shop.', [r]);

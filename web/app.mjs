@@ -1,4 +1,4 @@
-import { reconcile, parseCSV, toCSV, openWorkQueue, RULES, MAX_FILE_BYTES } from './engine.mjs';
+import { reconcile, parseCSV,parseDate, toCSV, openWorkQueue, RULES, MAX_FILE_BYTES } from './engine.mjs';
 import { getScenario, ORDER_COLUMNS, SHIPMENT_COLUMNS } from './datasets.mjs';
 import { COLUMNS, mapColumns, encodeCase, restoreCase } from './workspace.mjs';
 import {importFile} from './import-file.mjs';
@@ -182,7 +182,7 @@ $('import-form').addEventListener('submit', async event => {
   try {
     const a = $('orders-file').files[0], b = $('shipments-file').files[0];
     if (!a || !b) throw new Error('Vyberte oba CSV soubory.');
-    const orders=await importFile(a),shipments=await importFile(b);
+    const orders=await importFile(a,'orders'),shipments=await importFile(b,'shipments');
     showMapping({orders:orders.rows,shipments:shipments.rows},[orders.name,shipments.name]);
   } catch (error) { $('import-error').textContent = error instanceof Error ? error.message : 'Soubory se nepodařilo zpracovat.'; }
   finally { button.disabled = false; }
@@ -207,7 +207,7 @@ function customScenario(orders,shipments,names) {
 }
 function showMapping(input,names) {
   const dialog=el('dialog',{'aria-label':'Mapování sloupců',class:'mapping-dialog'}), form=el('form',{class:'mapping-grid'});
-  const error=el('p',{class:'form-error',role:'alert'}), selectors={};
+  const error=el('p',{class:'form-error',role:'alert'}), selectors={},dateFormats={};
   dialog.append(el('h2',{},'Přiřazení sloupců'),el('p',{},'Zkontrolujte přiřazení. Hodnoty ani identifikátory se automaticky neupravují. Profil se ukládá pouze do tohoto prohlížeče.'));
   for(const kind of ['orders','shipments']) {
     const headers=Object.keys(input[kind][0]??{}).filter(k=>k!=='__line');
@@ -219,15 +219,21 @@ function showMapping(input,names) {
       selectors[kind][key]=select;
       group.append(el('label',{class:'file-input'},labels[key],select));
     }
+    const date=el('select',{'aria-label':sourceName(kind)+': Formát data'},...Object.entries({auto:'Automaticky: ISO nebo den.měsíc.rok',iso:'Rok-měsíc-den (ISO)','dmy-dot':'Den.měsíc.rok','dmy-slash':'Den/měsíc/rok','mdy-slash':'Měsíc/den/rok'}).map(([value,label])=>el('option',{value},label)));
+    try{date.value=localStorage.getItem('datadesk:date:'+kind)||'auto';if(!date.value)date.value='auto'}catch{}
+    dateFormats[kind]=date;const preview=el('p',{class:'date-preview'}),field=kind==='orders'?'ordered_at':'shipped_at';
+    const refresh=()=>{preview.textContent=input[kind].slice(0,3).map(row=>{const raw=row[selectors[kind][field].value];return String(raw??'—')+' → '+(parseDate(raw,date.value)||'Neplatné / nepodporované datum')}).join(' · ')};
+    date.onchange=refresh;selectors[kind][field].addEventListener('change',refresh);refresh();group.append(el('label',{class:'file-input'},'Výklad data',date),preview);
   }
   form.append(el('div',{class:'mapping-footer'},error,el('button',{type:'submit',class:'button primary'},'Potvrdit a zkontrolovat'),el('button',{type:'button',class:'button secondary',onclick:()=>{dialog.close();dialog.remove()}},'Zrušit')));
   form.addEventListener('submit',event=>{
     event.preventDefault();
     try{
       const maps=Object.fromEntries(['orders','shipments'].map(kind=>[kind,Object.fromEntries(Object.entries(selectors[kind]).map(([k,s])=>[k,s.value]))]));
-      const orders=mapColumns(input.orders,maps.orders,'orders'), shipments=mapColumns(input.shipments,maps.shipments,'shipments');
+      const orders=mapColumns(input.orders,maps.orders,'orders',dateFormats.orders.value), shipments=mapColumns(input.shipments,maps.shipments,'shipments',dateFormats.shipments.value);
       customScenario(orders,shipments,names);
       for(const kind of ['orders','shipments'])try{localStorage.setItem(`datadesk:mapping:${kind}`,JSON.stringify(maps[kind]))}catch{}
+      for(const kind of ['orders','shipments'])try{localStorage.setItem('datadesk:date:'+kind,dateFormats[kind].value)}catch{}
       dialog.close();dialog.remove();$('import-dialog').close();toast('Mapování potvrzeno, kontrola dokončena.');
     }catch(e){error.textContent=e.message}
   });

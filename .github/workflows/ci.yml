@@ -25,6 +25,7 @@ jobs:
       - run: pnpm test
       - run: python -m unittest discover -s analysis -v
       - run: pnpm qa:xlsx
+      - run: node scripts/qa-formats.mjs
       - run: pnpm build
       - uses: actions/upload-artifact@v7
         if: always()

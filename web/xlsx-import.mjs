@@ -64,7 +64,7 @@ export function readSheet(bytes,name,headerRow=1){
   return s;
  };
  const headers=Array.from({length:range.e.c+1},(_,c)=>value(headerRow-1,c).trim());
- if(headers.some(h=>!h||['__proto__','constructor','prototype','__line'].includes(h))||new Set(headers).size!==headers.length)fail('Hlavičky musí být neprázdné, jedinečné a nesmí používat vyhrazené názvy.');
+ if(headers.some(h=>!h||['__proto__','constructor','prototype','__line','__dateFormat'].includes(h))||new Set(headers).size!==headers.length)fail('Hlavičky musí být neprázdné, jedinečné a nesmí používat vyhrazené názvy.');
  const rows=[];
  for(let r=headerRow;r<=range.e.r;r++){
   const cells=headers.map((_,c)=>value(r,c));

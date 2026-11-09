@@ -37,7 +37,8 @@ export function reportWorkbook({orders,shipments,names,reviews={},exportedAt=new
  summary['!autofilter']={ref:`A11:E${Math.max(11,last)}`};
  XLSX.utils.book_append_sheet(book,summary,'Přehled');
  for(const [name,source,cols] of [['Objednávky',orders,ORDER_COLUMNS],['Expedice',shipments,SHIPMENT_COLUMNS]]){
-  const s=sheet([['Řádek zdroje',...cols],...source.map((r,i)=>[r.__line??i+2,...cols.map(k=>String(r[k]??''))])],[16,...cols.map(k=>['customer','email'].includes(k)?30:20)]);
+  const kind=name==='Objednávky'?'orders':'shipments';
+  const s=sheet([['Řádek zdroje',...cols,'Výklad data','Normalizované datum'],...source.map((r,i)=>[r.__line??i+2,...cols.map(k=>String(r[k]??'')),r.__dateFormat||'auto',result[kind][i].date||''])],[16,...cols.map(k=>['customer','email'].includes(k)?30:20),20,22]);
   s['!autofilter']={ref:s['!ref']};XLSX.utils.book_append_sheet(book,s,name);
  }
  const findings=sheet([['Závažnost','Pravidlo','Nález','Zdroj a řádek','Stav prověření','Poznámka'],...result.findings.map(f=>[f.severity,f.code,f.title,f.rows.map(r=>`${r.source}:${r.line}`).join(', '),Object.hasOwn(reviews,f.id)?'Prověřeno; data nezměněna':'K prověření',String(reviews[f.id]?.note??'')])],[16,28,42,42,32,65]);

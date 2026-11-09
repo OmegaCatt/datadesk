@@ -32,3 +32,6 @@ Uložený případ obsahuje kanonicky namapované vstupy a poznámky. Import nik
 ## DD-3 až DD-7
 
 XLSX zpracovává vendored SheetJS ve workeru. ZIP guard před parserem počítá skutečné rozbalené bajty; nepovoluje libovolné externí konektory ani makra. Formátované hodnoty zůstávají textem, vzorce se neinterpretují. Report se obnovuje regenerováním, nikoli skrytým Power Query. Metadata řádku zdroje se ověřují. Viz docs/QA.md.
+
+## DD-1/2 dokončení
+Výklad datumu se ukládá do __dateFormat, patří do otisku a nemění originál. SQL analýzy přebírají znovu vypočtené nálezy z Node enginu; Python je nepřepisuje. Nálezy pro porovnání běhů mají obchodní otisk bez fyzických řádků a zachovávají násobnost.

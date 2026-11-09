@@ -18,11 +18,25 @@ function chooseSheet(names,filename){return new Promise((resolve,reject)=>{
  form.append(label,headerLabel,submit,cancel);dialog.append(title,file,form);document.body.append(dialog);dialog.showModal();
 })}
 
-export async function importFile(file){
+async function chooseDelimiter(text,kind){return new Promise((resolve,reject)=>{
+ const dialog=document.createElement('dialog');dialog.setAttribute('aria-label','Formát CSV');
+ const title=document.createElement('h2');title.textContent='Oddělovač CSV';
+ const preview=document.createElement('textarea');preview.value=text.slice(0,300);preview.readOnly=true;preview.rows=3;preview.cols=25;preview.setAttribute('aria-label','Začátek CSV');
+ const select=document.createElement('select');select.setAttribute('aria-label','Oddělovač CSV');
+ for(const [value,label] of [['auto','Automaticky'],[';','Středník'],[',','Čárka'],['\t','Tabulátor'],['|','Svislá čára']]){const option=document.createElement('option');option.value=value;option.textContent=label;select.append(option)}
+ try{const saved=localStorage.getItem('datadesk:separator:'+kind);if(['auto',';',',','\t','|'].includes(saved))select.value=saved}catch{}
+ let accepted=false;
+ const submit=document.createElement('button');submit.textContent='Načíst CSV';submit.onclick=()=>{accepted=true;resolve(select.value);dialog.close()};
+ const cancel=document.createElement('button');cancel.textContent='Zrušit';cancel.onclick=()=>dialog.close();
+ dialog.append(title,preview,select,submit,cancel);dialog.onclose=()=>{dialog.remove();if(!accepted)reject(Error('Import CSV zrušen.'))};document.body.append(dialog);dialog.showModal();
+})}
+export async function importFile(file,kind='source'){
  if(file.size>MAX_FILE_BYTES)throw Error('Každý soubor může mít nejvýše 2 MB.');
  if(file.name.toLowerCase().endsWith('.csv')){
   const text=await file.text();if(text.includes('\uFFFD')||text.includes('\u0000'))throw Error('CSV musí být v kódování UTF-8.');
-  return {rows:parseCSV(text),name:file.name};
+  const delimiter=await chooseDelimiter(text,kind),rows=parseCSV(text,delimiter);
+  try{localStorage.setItem('datadesk:separator:'+kind,delimiter)}catch{}
+  return {rows,name:file.name};
  }
  if(!file.name.toLowerCase().endsWith('.xlsx'))throw Error('Podporované jsou CSV a XLSX.');
  const worker=new Worker(new URL('./xlsx-worker.mjs',import.meta.url),{type:'module'});let serial=0;

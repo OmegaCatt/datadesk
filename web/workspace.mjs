@@ -1,13 +1,14 @@
-import {reconcile, MAX_ROWS} from './engine.mjs';
+import {reconcile, MAX_ROWS,DATE_FORMATS} from './engine.mjs';
 import {ORDER_COLUMNS, SHIPMENT_COLUMNS} from './datasets.mjs';
 
 export const COLUMNS = {orders: ORDER_COLUMNS, shipments: SHIPMENT_COLUMNS};
-export function mapColumns(rows, mapping, kind) {
+export function mapColumns(rows, mapping, kind, dateFormat='auto') {
+  if(!DATE_FORMATS.includes(dateFormat))throw Error('Neplatný datumový formát.');
   if (!Array.isArray(rows) || !rows.length || rows.length > MAX_ROWS || !COLUMNS[kind]) throw new Error('Neplatný vstup mapování.');
   const available = Object.keys(rows[0]).filter(k => k !== '__line');
   const selected = COLUMNS[kind].map(key => mapping?.[key]);
   if (selected.some(key => typeof key !== 'string' || !available.includes(key)) || new Set(selected).size !== selected.length) throw new Error('Každému poli přiřaďte jiný existující sloupec.');
-  return rows.map(row => Object.assign(Object.create(null), Object.fromEntries(COLUMNS[kind].map(key => [key, row[mapping[key]]])), {__line: row.__line}));
+  return rows.map(row => Object.assign(Object.create(null), Object.fromEntries(COLUMNS[kind].map(key => [key, row[mapping[key]]])), {__line: row.__line,__dateFormat:dateFormat}));
 }
 const validNote = entry => entry && typeof entry.note === 'string' && entry.note.trim().length >= 5 && entry.note.length <= 500 && typeof entry.at === 'string' && Number.isFinite(Date.parse(entry.at));
 export function decodeCase(text) {

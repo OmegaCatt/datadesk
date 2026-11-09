@@ -1,3 +1,9 @@
+## DD-1/2 – 10. 11. 2026
+
+Hotovo: ruční oddělovač CSV (včetně svislé čáry), potvrzený výklad datumu s náhledem a profily, původní hodnoty i metadata v případu/otisku. Excel report má původní datum, použitý formát a normalizovaný den. Automatická volba nepřijímá nejednoznačná lomítka. Nové SQL analýzy: měsíční částky po měnách, otevřené nálezy podle obchodu/období a změny mezi dvěma ověřenými případy. Viz [analysis/ANALYTICS.md](../analysis/ANALYTICS.md).
+
+Ověřeno 45 Node + 9 Python testy. Browser QA XLSX a nový CSV/formátový průchod prošly: volba svislé čáry, výklad 03/04/2026 jako 3. dubna, zachovaný originál, metadata v JSON, uložené profily, mobil a žádné JS chyby. SQL testy kontrolují měny, duplicity, chybné částky/datumy, pouhé přeuspořádání řádků, zánik nálezu, otisk a skutečný CLI export. Ostatní starší záznamy níže jsou historické.
+
 # DD-3, DD-5, DD-6, DD-7 – XLSX a report
 
 Hotovo místně: XLSX import ve workeru, výběr listu/hlavičky, omezení skutečné dekomprese, zachování formátovaných ID, odmítnutí vzorců a chybných buněk, Excel export s pěti listy a vzorci, opakovatelné CLI obnovení a fyzické řádky zdroje.

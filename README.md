@@ -1,5 +1,9 @@
 # DataDesk
 
+Nově: explicitní oddělovač CSV a formát data s náhledem, uložené profily a další SQL analýzy. [Postup SQL](analysis/ANALYTICS.md). Datumový výklad je uložený vedle originálu; původní hodnota se nepřepisuje.
+
+English: explicit CSV/date parsing profiles with preview and original values retained, plus reproducible monthly, open-findings and cross-run SQL reports.
+
 ## Aktualizace 9. 11. 2026: Mapování a uložené případy
 
 CSV import nyní nabízí potvrzení mapování všech sloupců s náhledem hodnot a místním profilem. Případ lze uložit včetně vstupů a poznámek; při otevření se ověřuje SHA-256 otisk a nálezy se znovu vypočítají. Otisk není podpis ani doklad autenticity. Importované případy se automaticky neukládají do prohlížeče. Samostatný Python/SQLite report a postup obnovy v Excelu jsou v [analysis/README.md](analysis/README.md). XLSX import a přepočítávaný Excel report jsou nyní implementované. Report se obnovuje opětovným exportem z aktuálního případu nebo CLI; nejde o Power Query ani Power BI.
