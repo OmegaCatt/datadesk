@@ -28,3 +28,7 @@ Keep Czech first in the GitHub README and add an English section with the same p
 ## 9. 11. 2026
 
 Uložený případ obsahuje kanonicky namapované vstupy a poznámky. Import nikdy nepřebírá uložené nálezy ani součty; kontroluje verzi pravidel a otisk vstupů a vše znovu počítá. SHA-256 není autentizační podpis. SQL analytický report počítá samostatnou jednoznačně definovanou metriku pokrytí, nepřepisuje validační engine.
+
+## DD-3 až DD-7
+
+XLSX zpracovává vendored SheetJS ve workeru. ZIP guard před parserem počítá skutečné rozbalené bajty; nepovoluje libovolné externí konektory ani makra. Formátované hodnoty zůstávají textem, vzorce se neinterpretují. Report se obnovuje regenerováním, nikoli skrytým Power Query. Metadata řádku zdroje se ověřují. Viz docs/QA.md.

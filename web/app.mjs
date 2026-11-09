@@ -1,6 +1,7 @@
 import { reconcile, parseCSV, toCSV, openWorkQueue, RULES, MAX_FILE_BYTES } from './engine.mjs';
 import { getScenario, ORDER_COLUMNS, SHIPMENT_COLUMNS } from './datasets.mjs';
 import { COLUMNS, mapColumns, encodeCase, restoreCase } from './workspace.mjs';
+import {importFile} from './import-file.mjs';
 
 const $ = id => document.getElementById(id);
 const paths = {
@@ -78,7 +79,7 @@ function findingsRows(rows) {
   const body = el('tbody');
   rows.forEach(f => {
     const ref = f.rows[0];
-    body.append(el('tr', {}, el('td', {}, badge(f.severity)), el('td', {}, el('button', { class: 'finding-title', onclick: () => showDetail(f) }, f.title), el('span', { class: 'cell-sub' }, `${sourceName(ref.source)} · záznam ${ref.row}${f.rows.length > 1 ? ` + ${f.rows.length - 1} další` : ''}`)), el('td', {}, el('span', { class: 'mono' }, ref.id || '—'), el('span', { class: 'cell-sub' }, ref.shop || 'Chybí e-shop')), el('td', { class: 'review-cell' }, reviewed(f) ? badge('reviewed', 'Prověřeno') : el('span', { class: 'badge open' }, 'K prověření')), el('td', {}, el('button', { class: 'chevron', 'aria-label': `Detail: ${f.title}, ${ref.id || 'bez ID'}`, onclick: () => showDetail(f) }, icon('chevron')))));
+    body.append(el('tr', {}, el('td', {}, badge(f.severity)), el('td', {}, el('button', { class: 'finding-title', onclick: () => showDetail(f) }, f.title), el('span', { class: 'cell-sub' }, `${sourceName(ref.source)} · řádek ${ref.line}${f.rows.length > 1 ? ` + ${f.rows.length - 1} další` : ''}`)), el('td', {}, el('span', { class: 'mono' }, ref.id || '—'), el('span', { class: 'cell-sub' }, ref.shop || 'Chybí e-shop')), el('td', { class: 'review-cell' }, reviewed(f) ? badge('reviewed', 'Prověřeno') : el('span', { class: 'badge open' }, 'K prověření')), el('td', {}, el('button', { class: 'chevron', 'aria-label': `Detail: ${f.title}, ${ref.id || 'bez ID'}`, onclick: () => showDetail(f) }, icon('chevron')))));
   });
   table.append(body); return el('div', { class: 'table-scroll' }, table);
 }
@@ -122,7 +123,7 @@ function dataView() {
   const perPage = 25, pages = Math.ceil(records.length / perPage); state.dataPage = Math.max(1, Math.min(state.dataPage, pages || 1));
   const panel = el('section', { class: 'panel' }, el('div', { class: 'panel-heading' }, el('div', { class: 'data-tabs', role: 'group', 'aria-label': 'Vybrat zdroj dat' }, ...['orders', 'shipments'].map(kind => el('button', { class: `data-tab ${state.source === kind ? 'selected' : ''}`, 'aria-pressed': state.source === kind ? 'true' : 'false', onclick: () => { state.source = kind; state.dataPage = 1; state.dataQuery = ''; render(); } }, sourceName(kind))))));
   panel.append(el('div', { class: 'toolbar' }, searchBox('data-search', state.dataQuery, 'Hledat ve zdrojových datech…', v => { state.dataQuery = v; state.dataPage = 1; render(); })));
-  const table = el('table', { class: 'data-table' }, el('thead', {}, el('tr', {}, el('th', { scope: 'col' }, 'ZÁZNAM'), ...columns.map(c => el('th', { scope: 'col' }, labels[c])))), el('tbody', {}, ...records.slice((state.dataPage - 1) * perPage, state.dataPage * perPage).map(r => el('tr', {}, el('td', { class: 'mono' }, r.row), ...columns.map(c => el('td', { title: String(r.raw[c] ?? '') }, String(r.raw[c] ?? '')))))));
+  const table = el('table', { class: 'data-table' }, el('thead', {}, el('tr', {}, el('th', { scope: 'col' }, 'ŘÁDEK ZDROJE'), ...columns.map(c => el('th', { scope: 'col' }, labels[c])))), el('tbody', {}, ...records.slice((state.dataPage - 1) * perPage, state.dataPage * perPage).map(r => el('tr', {}, el('td', { class: 'mono' }, r.line), ...columns.map(c => el('td', { title: String(r.raw[c] ?? '') }, String(r.raw[c] ?? '')))))));
   panel.append(records.length ? el('div', { class: 'table-scroll' }, table) : empty('Žádné odpovídající záznamy', 'Zkuste jiný hledaný výraz.'));
   panel.append(el('div', { class: 'table-footer' }, `${number(records.length)} záznamů · původní hodnoty bez úprav`, pager(state.dataPage, pages, p => { state.dataPage = p; render(); })), el('div', { class: 'info-line' }, 'Záznamy se zde neupravují. DataDesk poskytuje kontrolní výsledek pro opravu ve zdroji.')); return panel;
 }
@@ -142,7 +143,7 @@ function render() {
 function showDetail(f) {
   const content = $('detail-content');
   content.replaceChildren(badge(f.severity), el('h2', { id: 'detail-title', class: 'detail-title' }, f.title), el('p', {}, f.message), el('div', { class: 'detail-meta' }, el('span', { class: 'mono' }, f.code), reviewed(f) ? badge('reviewed', 'Prověřeno') : el('span', { class: 'badge open' }, 'K prověření')));
-  for (const r of f.rows.slice(0, 20)) content.append(el('section', { class: 'source-record' }, el('div', { class: 'record-heading' }, `${sourceName(r.source)} · záznam ${r.row}`), el('table', {}, el('tbody', {}, ...Object.entries(r.raw).filter(([k]) => k !== '__line').map(([k, v]) => el('tr', {}, el('td', {}, labels[k] ?? k), el('td', {}, String(v ?? ''))))))));
+  for (const r of f.rows.slice(0, 20)) content.append(el('section', { class: 'source-record' }, el('div', { class: 'record-heading' }, `${sourceName(r.source)} · řádek ${r.line}`), el('table', {}, el('tbody', {}, ...Object.entries(r.raw).filter(([k]) => k !== '__line').map(([k, v]) => el('tr', {}, el('td', {}, labels[k] ?? k), el('td', {}, String(v ?? ''))))))));
   if (f.rows.length > 20) content.append(el('p', { class: 'small muted' }, `Zobrazeno prvních 20 z ${number(f.rows.length)} souvisejících záznamů. Úplné podklady obsahuje export JSON.`));
   if (reviewed(f)) {
     const entry = state.reviews[f.id];
@@ -181,16 +182,13 @@ $('import-form').addEventListener('submit', async event => {
   try {
     const a = $('orders-file').files[0], b = $('shipments-file').files[0];
     if (!a || !b) throw new Error('Vyberte oba CSV soubory.');
-    if (![a, b].every(f => f.name.toLowerCase().endsWith('.csv'))) throw new Error('Podporované jsou pouze CSV soubory v UTF-8.');
-    if ([a, b].some(f => f.size > MAX_FILE_BYTES)) throw new Error('Každý soubor může mít nejvýše 2 MB.');
-    const [at, bt] = await Promise.all([a.text(), b.text()]);
-    if ([at, bt].some(text => text.includes('\uFFFD') || text.includes('\u0000'))) throw new Error('Soubor není platný podporovaný text. Uložte jej jako CSV UTF-8.');
-    showMapping({orders:parseCSV(at), shipments:parseCSV(bt)}, [a.name,b.name]);
+    const orders=await importFile(a),shipments=await importFile(b);
+    showMapping({orders:orders.rows,shipments:shipments.rows},[orders.name,shipments.name]);
   } catch (error) { $('import-error').textContent = error instanceof Error ? error.message : 'Soubory se nepodařilo zpracovat.'; }
   finally { button.disabled = false; }
 });
 const findingColumns = ['severity', 'rule', 'title', 'description', 'records', 'review_status', 'review_note'];
-function findingExportRows(findings) { return findings.map(f => ({ severity: f.severity, rule: f.code, title: f.title, description: f.message, records: f.rows.map(r => `${sourceName(r.source)}:${r.row}:${r.shop}/${r.id}`).join(' | '), review_status: reviewed(f) ? 'Prověřeno, data nezměněna' : 'K prověření', review_note: state.reviews[f.id]?.note ?? '' })); }
+function findingExportRows(findings) { return findings.map(f => ({ severity: f.severity, rule: f.code, title: f.title, description: f.message, records: f.rows.map(r => `${sourceName(r.source)}:${r.line}:${r.shop}/${r.id}`).join(' | '), review_status: reviewed(f) ? 'Prověřeno, data nezměněna' : 'K prověření', review_note: state.reviews[f.id]?.note ?? '' })); }
 $('csv-export').addEventListener('click', () => { download('datadesk_nalezy.csv', toCSV(findingExportRows(state.result.findings), findingColumns), 'text/csv;charset=utf-8'); toast('CSV protokol byl připraven ke stažení.'); });
 $('filtered-export').addEventListener('click', () => { const rows = findingExportRows(filteredFindings()); download('datadesk_vyber_nalezu.csv', toCSV(rows, findingColumns), 'text/csv;charset=utf-8'); toast(`Výběr ${rows.length} nálezů je připraven ke stažení.`); });
 $('queue-export').addEventListener('click', () => {
@@ -208,21 +206,21 @@ function customScenario(orders,shipments,names) {
   $('scenario').value='custom';
 }
 function showMapping(input,names) {
-  const dialog=el('dialog',{'aria-label':'Mapování sloupců'}), form=el('form');
+  const dialog=el('dialog',{'aria-label':'Mapování sloupců',class:'mapping-dialog'}), form=el('form',{class:'mapping-grid'});
   const error=el('p',{class:'form-error',role:'alert'}), selectors={};
   dialog.append(el('h2',{},'Přiřazení sloupců'),el('p',{},'Zkontrolujte přiřazení. Hodnoty ani identifikátory se automaticky neupravují. Profil se ukládá pouze do tohoto prohlížeče.'));
   for(const kind of ['orders','shipments']) {
     const headers=Object.keys(input[kind][0]??{}).filter(k=>k!=='__line');
     let preset={}; try{preset=JSON.parse(localStorage.getItem(`datadesk:mapping:${kind}`)??'{}')}catch{}
-    form.append(el('h3',{},sourceName(kind))); selectors[kind]={};
+    const group=el('section',{},el('h3',{},sourceName(kind)));form.append(group); selectors[kind]={};
     for(const key of COLUMNS[kind]) {
       const select=el('select',{'aria-label':`${sourceName(kind)}: ${labels[key]}`},el('option',{value:''},'Vyberte sloupec'),...headers.map(h=>el('option',{value:h},`${h} — ${String(input[kind][0][h]??'').slice(0,50)}`)));
       select.value=headers.includes(preset[key])?preset[key]:headers.includes(key)?key:'';
       selectors[kind][key]=select;
-      form.append(el('label',{class:'file-input'},labels[key],select));
+      group.append(el('label',{class:'file-input'},labels[key],select));
     }
   }
-  form.append(error,el('button',{type:'submit',class:'button primary'},'Potvrdit a zkontrolovat'),el('button',{type:'button',class:'button secondary',onclick:()=>{dialog.close();dialog.remove()}},'Zrušit'));
+  form.append(el('div',{class:'mapping-footer'},error,el('button',{type:'submit',class:'button primary'},'Potvrdit a zkontrolovat'),el('button',{type:'button',class:'button secondary',onclick:()=>{dialog.close();dialog.remove()}},'Zrušit')));
   form.addEventListener('submit',event=>{
     event.preventDefault();
     try{
@@ -246,4 +244,17 @@ caseInput.addEventListener('change',async()=>{
   customScenario(saved.orders,saved.shipments,saved.names);
   state.reviews=saved.reviews;state.history=saved.history;render();toast('Případ obnoven a nálezy znovu vypočítány.');
  }catch(e){toast(e.message)}finally{caseInput.value=''}
+});
+
+const workbookButton=el('button',{id:'workbook-export',class:'export-choice'},el('span',{class:'file-icon'},'XLSX'),el('span',{},el('strong',{},'Excel report'),el('small',{},'Přehled, zdrojová data, nálezy a pravidla; vzorce pro podíly a součty')));
+$('export-dialog').insertBefore(workbookButton,$('csv-export'));
+workbookButton.addEventListener('click',()=>{
+ if(workbookButton.disabled)return;
+ workbookButton.disabled=true;toast('Připravuji Excel report na pozadí…');
+ const worker=new Worker(new URL('./report-worker.mjs',import.meta.url),{type:'module'});
+ const finish=()=>{clearTimeout(timer);worker.terminate();workbookButton.disabled=false};
+ const timer=setTimeout(()=>{finish();toast('Export překročil limit 30 sekund. Zkuste menší případ.')},30000);
+ worker.onmessage=({data})=>{finish();if(data.error){toast(data.error);return}download('datadesk_report.xlsx',data.result,'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');toast('Excel report obsahuje snímek aktuálních dat a nálezů.');};
+ worker.onerror=()=>{finish();toast('Excel report se nepodařilo vytvořit.')};
+ worker.postMessage({orders:state.scenario.orders,shipments:state.scenario.shipments,names:state.names,reviews:state.reviews});
 });

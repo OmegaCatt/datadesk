@@ -82,7 +82,7 @@ export function openWorkQueue(result, reviews = {}) {
     rule: finding.code,
     title: finding.title,
     description: finding.message,
-    records: finding.rows.map(row => `${row.source}:${row.row}:${row.shop}/${row.id}`).join(' | '),
+    records: finding.rows.map(row => `${row.source}:${row.line ?? row.row}:${row.shop}/${row.id}`).join(' | '),
     next_step: 'Ověřit zdrojová data a zaznamenat výsledek kontroly',
   }));
 }
@@ -111,6 +111,7 @@ export function reconcile(inputOrders, inputShipments) {
   const requireSchema = (rows, fields, label) => {
     if (!rows.length) throw new Error(`${label}: soubor neobsahuje žádné datové řádky.`);
     if (rows.some(row => !row || typeof row !== 'object' || Array.isArray(row))) throw new Error(`${label}: neplatný záznam.`);
+    if (rows.some(row => row.__line !== undefined && (!Number.isSafeInteger(row.__line) || row.__line<1 || row.__line>MAX_FILE_BYTES+1))) throw new Error(`${label}: neplatné číslo řádku zdroje.`);
     const missing = fields.filter(f => rows.some(row => !Object.hasOwn(row, f)));
     if (missing.length) throw new Error(`${label}: chybí sloupce ${missing.join(', ')}.`);
     if (rows.some(row => fields.some(f => typeof row[f] === 'object' && row[f] !== null))) throw new Error(`${label}: buňka musí obsahovat jednoduchou hodnotu.`);

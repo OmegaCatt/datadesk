@@ -3,6 +3,9 @@ import assert from 'node:assert/strict';
 import {mapColumns,encodeCase,restoreCase} from '../web/workspace.mjs';
 import {getScenario,ORDER_COLUMNS} from '../web/datasets.mjs';
 import {reconcile} from '../web/engine.mjs';
+test('source line metadata is bounded and never accepts an object or forged text',()=>{
+ for(const value of [null,'3',{},-1,2.5,2_000_002]){const data=getScenario('clean');data.orders[0].__line=value;assert.throws(()=>reconcile(data.orders,data.shipments),/řádku zdroje/);}
+});
 test('mapping preserves source lines and identifiers and rejects reused columns',()=>{
  const source=[Object.assign(Object.fromEntries(ORDER_COLUMNS.map(k=>['cz_'+k,k==='order_id'?'001':'x'])),{__line:7})];
  const mapping=Object.fromEntries(ORDER_COLUMNS.map(k=>[k,'cz_'+k]));

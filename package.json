@@ -4,12 +4,19 @@
   "private": true,
   "type": "module",
   "description": "A reproducible data quality and order reconciliation portfolio application.",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "start": "node scripts/serve.mjs",
     "test": "node --test",
     "benchmark": "node scripts/benchmark.mjs",
     "demo:report": "node scripts/cli.mjs",
-    "build": "node scripts/build.mjs"
+    "build": "node scripts/build.mjs",
+    "qa:xlsx": "node scripts/qa-xlsx.mjs",
+    "report:xlsx": "node scripts/export-workbook.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
   }
 }

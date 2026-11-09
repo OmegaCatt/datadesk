@@ -14,7 +14,7 @@ export function decodeCase(text) {
   if (typeof text !== 'string' || new TextEncoder().encode(text).length > 8_000_000) throw new Error('Případ může mít nejvýše 8 MB.');
   let saved;
   try { saved = JSON.parse(text); } catch { throw new Error('Neplatný JSON případu.'); }
-  if (saved?.format !== 'datadesk-case' || saved.version !== 1 || !Array.isArray(saved.names) || saved.names.length !== 2 || saved.names.some(n => typeof n !== 'string' || n.length > 250)) throw new Error('Nepodporovaný formát případu.');
+  if (saved?.format !== 'datadesk-case' || saved.version !== 1 || !Array.isArray(saved.names) || saved.names.length !== 2 || saved.names.some(n => typeof n !== 'string' || n.length > 400)) throw new Error('Nepodporovaný formát případu.');
   // Always recompute findings. Saved totals, findings and review flags are not trusted.
   const result = reconcile(saved.orders, saved.shipments);
   if (saved.engineVersion !== result.version) throw new Error('Případ používá jinou verzi pravidel.');

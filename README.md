@@ -2,29 +2,29 @@
 
 ## Aktualizace 9. 11. 2026: Mapování a uložené případy
 
-CSV import nyní nabízí potvrzení mapování všech sloupců s náhledem hodnot a místním profilem. Případ lze uložit včetně vstupů a poznámek; při otevření se ověřuje SHA-256 otisk a nálezy se znovu vypočítají. Otisk není podpis ani doklad autenticity. Importované případy se automaticky neukládají do prohlížeče. Samostatný Python/SQLite report a postup obnovy v Excelu jsou v [analysis/README.md](analysis/README.md). XLSX import a hotový BI sešit zatím nejsou implementované.
+CSV import nyní nabízí potvrzení mapování všech sloupců s náhledem hodnot a místním profilem. Případ lze uložit včetně vstupů a poznámek; při otevření se ověřuje SHA-256 otisk a nálezy se znovu vypočítají. Otisk není podpis ani doklad autenticity. Importované případy se automaticky neukládají do prohlížeče. Samostatný Python/SQLite report a postup obnovy v Excelu jsou v [analysis/README.md](analysis/README.md). XLSX import a přepočítávaný Excel report jsou nyní implementované. Report se obnovuje opětovným exportem z aktuálního případu nebo CLI; nejde o Power Query ani Power BI.
 
-English: confirmed column mapping, portable cases with input fingerprint checks and recomputed findings, plus a reproducible Python/SQLite coverage report. XLSX input and a finished BI workbook remain future work.
+English: confirmed column mapping, portable cases with input fingerprint checks and recomputed findings, plus a reproducible Python/SQLite coverage report. XLSX import and a formula-based Excel report are implemented. Refresh by exporting the current case again or using the CLI; this is not a Power Query or Power BI model.
 
 [Česky](#česky) · [English](#english)
 
 ## Česky
 
-**DataDesk je ukázková aplikace pro kontrolu kvality dat a párování objednávek se zásilkami.** Ze dvou fiktivních CSV exportů vytvoří vysvětlitelná zjištění a u každého zachová odkaz na původní řádek. Stejná validační pravidla fungují v prohlížeči i v příkazové řádce.
+**DataDesk je ukázková aplikace pro kontrolu kvality dat a párování objednávek se zásilkami.** Ze dvou fiktivních CSV/XLSX exportů vytvoří vysvětlitelná zjištění a u každého zachová odkaz na původní řádek. Stejná validační pravidla fungují v prohlížeči i v příkazové řádce.
 
 ![Přehled aplikace DataDesk](docs/preview.png)
 
 ### Co aplikace ukazuje
 
 - Odhaluje chybějící a nepřiřazené zásilky, duplicitní a rozporná ID, nesoulad množství a dat, neplatná pole a součty oddělené podle měny.
-- Umožňuje místní import CSV, prohlížení zdrojových záznamů, filtrování zjištění, poznámky ke kontrole a export do CSV nebo JSON. Filtrovaný CSV export obsahuje aktuální výběr napříč stránkami; samostatný seznam otevřených úkolů obsahuje prioritu a odkazy na zdrojové řádky. Poznámky nemění zjištění ani původní data.
+- Umožňuje místní import CSV/XLSX, prohlížení zdrojových záznamů, filtrování zjištění, poznámky ke kontrole a export do CSV nebo JSON. Filtrovaný CSV export obsahuje aktuální výběr napříč stránkami; samostatný seznam otevřených úkolů obsahuje prioritu a odkazy na zdrojové řádky. Poznámky nemění zjištění ani původní data.
 - Rozklikávací panel v aplikaci vysvětluje použité technologie, kontrolní postup a hranice ukázky.
 - Omezuje velikost a strukturu importů, odmítá vyhrazené názvy sloupců, bezpečně zobrazuje text a při exportu neutralizuje vzorce, které by mohl spustit tabulkový procesor.
 - Obsahuje automatizované testy a reprodukovatelný benchmark se 20 000 objednávkami a 20 000 zásilkami včetně scénáře s mnoha duplicitami.
 
 ### Jak se používá a co bylo použito
 
-1. Vyberte připravený scénář, nebo nahrajte export objednávek a zásilek jako dvě CSV. Aplikace před kontrolou ověří strukturu a velikost vstupu.
+1. Vyberte připravený scénář, nebo nahrajte export objednávek a zásilek jako CSV nebo XLSX. Aplikace před kontrolou ověří strukturu a velikost vstupu.
 2. Projděte souhrn a seznam zjištění. Filtrujte podle závažnosti a otevřete původní řádky; u sporných případů přidejte poznámku ke kontrole.
 3. Exportujte všechna nebo filtrovaná zjištění do CSV/JSON, případně samostatný seznam otevřených úkolů. Stejná pravidla lze spustit z CLI pro opakovatelný report.
 
@@ -36,13 +36,13 @@ Prvním krokem by byl schválený vzorek anonymizovaných exportů a společná 
 
 ### Spuštění
 
-Vyžaduje Node.js 22 nebo novější. Nemá balíčkové závislosti ani API klíče.
+Ověřeno na Node.js 24. Běh nevyžaduje instalaci balíčků ani API klíče. XLSX používá lokální SheetJS 0.20.3 (Apache-2.0). Pro prohlížečové QA se instaluje vývojová závislost Playwright.
 
 ```sh
 npm start
 ```
 
-Otevřete [http://127.0.0.1:4173](http://127.0.0.1:4173). Aplikace obsahuje tři fiktivní scénáře. Pro vlastní data zvolte jedno CSV s objednávkami a jedno CSV se zásilkami; každý soubor může mít nejvýše 20 000 záznamů a 2 000 000 bajtů. Požadované sloupce ukazuje rozhraní. Tato verze podporuje CSV, nikoli XLSX.
+Otevřete [http://127.0.0.1:4173](http://127.0.0.1:4173). Aplikace obsahuje tři fiktivní scénáře. Pro vlastní data zvolte soubor CSV/XLSX s objednávkami a druhý s expedicí; každý soubor může mít nejvýše 20 000 záznamů a 2 000 000 bajtů. Požadované sloupce ukazuje rozhraní. XLSX navíc omezuje skutečný rozbalený obsah na 32 MB, 256 částí, 16 listů a 64 sloupců. Viditelný list a řádek hlavičky 1–25 vybírá uživatel. Vzorce a chybové buňky ve vybrané datové oblasti, sloučené datové buňky, makra a externí odkazy se odmítají.
 
 ```sh
 npm test
@@ -68,7 +68,7 @@ DataDesk is a Czech portfolio application for reconciling fictional order and sh
 ### What it demonstrates
 
 - Deterministic validation: missing and orphaned shipments, duplicate and conflicting IDs, quantity and date checks, invalid fields, and currency-separated totals.
-- Browser-local CSV import, source inspection, findings filters, review notes, and CSV/JSON exports. A filtered CSV includes all matching findings across pages; a separate open-issues queue includes priority and source-row references. Review notes never change findings or original data.
+- Browser-local CSV/XLSX import, source inspection, findings filters, review notes, and CSV/JSON exports. A filtered CSV includes all matching findings across pages; a separate open-issues queue includes priority and source-row references. Review notes never change findings or original data.
 - An expandable in-app note explains the technologies, data flow, and demo limits.
 - Defensive CSV parsing and export: schema and size limits, reserved-header rejection, safe text rendering, and spreadsheet-formula neutralization.
 - Reproducible tests and a 20,000 + 20,000 row benchmark, including a duplicate-heavy case.
@@ -85,13 +85,13 @@ Start with approved anonymized exports and agree on IDs, order states, and excep
 
 ### Run locally
 
-Requires Node.js 22 or newer. There are no package dependencies or API keys.
+Verified with Node.js 24. No package installation or API key is needed to run the app. SheetJS 0.20.3 is vendored locally; Playwright is a development-only QA dependency.
 
 ```sh
 npm start
 ```
 
-Open http://127.0.0.1:4173. The app includes three fictional scenarios. To import your own data, select one orders CSV and one shipments CSV; each may contain at most 20,000 records and 2,000,000 bytes. The interface shows the required columns. CSV is the supported format; XLSX is not supported in this version.
+Open http://127.0.0.1:4173. The app includes three fictional scenarios. To import your own data, select one orders CSV and one shipments CSV; each may contain at most 20,000 records and 2,000,000 bytes. The interface shows the required columns. Both CSV and XLSX are supported. XLSX is processed in a module worker with limits on actual archive expansion, sheets, columns and rows. Formula/error cells in the selected data area, macros, external links and merged data cells are rejected.
 
 ```sh
 npm test
@@ -107,3 +107,30 @@ The CLI also accepts `orders.csv shipments.csv [report.json]`. With no arguments
 All included names, shops and emails are fictional. Browser imports are processed in the page; the application has no upload service. Review notes for prepared scenarios are stored in that browser's local storage. Notes for imported files are held only in memory. This is a portfolio demonstration, not a shared or tamper-proof audit system.
 
 See [project scope](docs/PROJECT.md), [decisions](docs/DECISIONS.md), [status](docs/STATUS.md) and [QA evidence](docs/QA.md).
+
+## XLSX a Excel report
+
+V dialogu **Nová kontrola** zvolte dva soubory CSV/XLSX. U XLSX vyberte viditelný list a řádek hlavičky, potom potvrďte mapování. Načítají se formátované textové hodnoty, takže ID s počátečními nulami zůstanou zachovaná. Neobvyklý číselný nebo datumový formát může vyžadovat opravu exportu; aplikace neodhaduje význam nejednoznačných hodnot. Každý nález ukazuje skutečný řádek zdroje.
+
+**Exportovat výsledky → Excel report** vytvoří listy Přehled, Objednávky, Expedice, Nálezy a Pravidla. Podíly a součty jsou skutečné vzorce; zdrojové texty se nevkládají jako vzorce. Zdrojová data a nálezy jsou snímek okamžiku exportu. Pro obnovení znovu zpracujte exporty a stáhněte report, nebo obnovte uložený případ:
+
+```sh
+node scripts/export-workbook.mjs pripad.json report.xlsx
+```
+
+Pro SQL kontrolu stejné metriky viz `analysis/coverage.sql`. SQL a JS report byly nezávisle porovnány na fiktivním případu. Přepočet vzorců byl ověřen v nezávislém tabulkovém nástroji; samostatný běh desktopového Excelu nebyl součástí této kontroly.
+
+### Opakovatelná kontrola
+
+```sh
+pnpm install --frozen-lockfile
+pnpm exec playwright install chromium
+pnpm test
+pnpm qa:xlsx
+python -m unittest discover -s analysis -v
+node scripts/benchmark-xlsx.mjs
+```
+
+Pro testování je ověřen Node.js 24 a Python 3.13. Moderní prohlížeč musí podporovat module workers a DecompressionStream deflate-raw. Žádná data se při importu ani exportu neposílají mimo prohlížeč. SheetJS se nestahuje za běhu z CDN. CI opakuje testy, prohlížečový import/export a sestavení; jeho vzdálený výsledek uvádí GitHub Actions.
+
+English: select a worksheet and header row, confirm column mapping, then export a five-sheet workbook. Formulas recalculate summary ratios and totals; source data and findings remain a snapshot. Regenerate from current inputs or a validated saved case. This does not claim native Power Query refresh. XLSX parsing/writing runs in workers and makes no external requests.
