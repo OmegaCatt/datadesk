@@ -18,3 +18,4 @@ dialog{border:1px solid #dde6e7;border-radius:13px;padding:25px;width:min(540px,
 .tech-body p{font-size:11px;line-height:1.7;color:#526b73;margin:10px 0}
 .tech-body strong{color:#304b57}
 @media(max-width:600px){.tech-details summary span{display:block;float:none;margin-top:3px}}
+.heading-actions{flex-wrap:wrap}.page-heading>div{min-width:0}.file-input select{display:block;width:100%;min-width:0;max-width:100%;padding:9px;margin-top:6px}dialog form{min-width:0}@media(max-width:600px){.heading-actions{width:100%}.heading-actions .button{flex:1 1 45%}}

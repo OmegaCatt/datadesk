@@ -24,3 +24,7 @@ Export unreviewed findings as a separate CSV queue with priority and source refe
 
 Keep Czech first in the GitHub README and add an English section with the same product scope. The app interface remains Czech; the English text explains it to international employers without claiming an English UI.
 
+
+## 9. 11. 2026
+
+Uložený případ obsahuje kanonicky namapované vstupy a poznámky. Import nikdy nepřebírá uložené nálezy ani součty; kontroluje verzi pravidel a otisk vstupů a vše znovu počítá. SHA-256 není autentizační podpis. SQL analytický report počítá samostatnou jednoznačně definovanou metriku pokrytí, nepřepisuje validační engine.

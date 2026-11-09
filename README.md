@@ -1,5 +1,11 @@
 # DataDesk
 
+## Aktualizace 9. 11. 2026: Mapování a uložené případy
+
+CSV import nyní nabízí potvrzení mapování všech sloupců s náhledem hodnot a místním profilem. Případ lze uložit včetně vstupů a poznámek; při otevření se ověřuje SHA-256 otisk a nálezy se znovu vypočítají. Otisk není podpis ani doklad autenticity. Importované případy se automaticky neukládají do prohlížeče. Samostatný Python/SQLite report a postup obnovy v Excelu jsou v [analysis/README.md](analysis/README.md). XLSX import a hotový BI sešit zatím nejsou implementované.
+
+English: confirmed column mapping, portable cases with input fingerprint checks and recomputed findings, plus a reproducible Python/SQLite coverage report. XLSX input and a finished BI workbook remain future work.
+
 [Česky](#česky) · [English](#english)
 
 ## Česky
@@ -22,7 +28,7 @@
 2. Projděte souhrn a seznam zjištění. Filtrujte podle závažnosti a otevřete původní řádky; u sporných případů přidejte poznámku ke kontrole.
 3. Exportujte všechna nebo filtrovaná zjištění do CSV/JSON, případně samostatný seznam otevřených úkolů. Stejná pravidla lze spustit z CLI pro opakovatelný report.
 
-Použito je **JavaScript ES modules, HTML/CSS, Node.js, vlastní CSV parser a vestavěný `node:test`**. Kontroly jsou pravidlové, bez LLM a bez odesílání importovaných dat na server. Kód pro načtení, párování a report je sdílený mezi prohlížečem a CLI; není tu Python, SQL, databáze ani napojení na e-shop.
+Použito je **JavaScript ES modules, HTML/CSS, Node.js, vlastní CSV parser a vestavěný `node:test`**. Kontroly jsou pravidlové, bez LLM a bez odesílání importovaných dat na server. Kód pro načtení, párování a report je sdílený mezi prohlížečem a CLI; webové jádro nepoužívá Python ani databázi. Samostatná analytická ukázka používá Python/SQLite; napojení na e-shop zde není.
 
 ### Jak by šlo řešení zavést ve firmě
 
@@ -71,7 +77,7 @@ DataDesk is a Czech portfolio application for reconciling fictional order and sh
 
 Choose a fictional scenario or import separate orders and shipments CSV files. Inspect and filter findings, open the source rows, add review notes, then export CSV/JSON or an open-issues queue. The same rules can generate a repeatable report from the CLI.
 
-The implemented stack is **JavaScript ES modules, HTML/CSS, Node.js, a custom CSV parser, and built-in `node:test`**. Reconciliation is deterministic; imported files stay in the browser. There is no LLM, Python, SQL, database, or live commerce integration.
+The implemented stack is **JavaScript ES modules, HTML/CSS, Node.js, a custom CSV parser, and built-in `node:test`**. Reconciliation is deterministic; imported files stay in the browser. The web engine uses no LLM or database. A separate Python/SQLite report is available under analysis/; there is no live commerce integration.
 
 ### Possible company adoption
 

@@ -1,5 +1,6 @@
 import { reconcile, parseCSV, toCSV, openWorkQueue, RULES, MAX_FILE_BYTES } from './engine.mjs';
 import { getScenario, ORDER_COLUMNS, SHIPMENT_COLUMNS } from './datasets.mjs';
+import { COLUMNS, mapColumns, encodeCase, restoreCase } from './workspace.mjs';
 
 const $ = id => document.getElementById(id);
 const paths = {
@@ -184,10 +185,7 @@ $('import-form').addEventListener('submit', async event => {
     if ([a, b].some(f => f.size > MAX_FILE_BYTES)) throw new Error('Každý soubor může mít nejvýše 2 MB.');
     const [at, bt] = await Promise.all([a.text(), b.text()]);
     if ([at, bt].some(text => text.includes('\uFFFD') || text.includes('\u0000'))) throw new Error('Soubor není platný podporovaný text. Uložte jej jako CSV UTF-8.');
-    const orders = parseCSV(at), shipments = parseCSV(bt);
-    setData({ id: `custom-${Date.now()}`, name: 'Vlastní kontrola CSV', orders, shipments }, [a.name, b.name]);
-    if (!$('scenario').querySelector('[value=custom]')) $('scenario').append(el('option', { value: 'custom' }, 'Vlastní kontrola CSV'));
-    $('scenario').value = 'custom'; $('import-dialog').close(); toast('Soubory byly zkontrolovány lokálně v prohlížeči.');
+    showMapping({orders:parseCSV(at), shipments:parseCSV(bt)}, [a.name,b.name]);
   } catch (error) { $('import-error').textContent = error instanceof Error ? error.message : 'Soubory se nepodařilo zpracovat.'; }
   finally { button.disabled = false; }
 });
@@ -203,3 +201,49 @@ $('queue-export').addEventListener('click', () => {
 $('json-export').addEventListener('click', () => { download('datadesk_protokol.json', JSON.stringify(report(), null, 2), 'application/json;charset=utf-8'); toast('Kompletní protokol byl připraven ke stažení.'); });
 $('reset-reviews').addEventListener('click', () => { state.reviews = {}; state.history = []; persistReviews(); render(); $('about-dialog').close(); toast('Uložená prověření této kontroly byla smazána.'); });
 navigate(); setData(getScenario('issues'));
+
+function customScenario(orders,shipments,names) {
+  setData({id:`custom-${Date.now()}`,name:'Vlastní kontrola CSV',orders,shipments},names);
+  if (!$('scenario').querySelector('[value=custom]')) $('scenario').append(el('option',{value:'custom'},'Vlastní kontrola CSV'));
+  $('scenario').value='custom';
+}
+function showMapping(input,names) {
+  const dialog=el('dialog',{'aria-label':'Mapování sloupců'}), form=el('form');
+  const error=el('p',{class:'form-error',role:'alert'}), selectors={};
+  dialog.append(el('h2',{},'Přiřazení sloupců'),el('p',{},'Zkontrolujte přiřazení. Hodnoty ani identifikátory se automaticky neupravují. Profil se ukládá pouze do tohoto prohlížeče.'));
+  for(const kind of ['orders','shipments']) {
+    const headers=Object.keys(input[kind][0]??{}).filter(k=>k!=='__line');
+    let preset={}; try{preset=JSON.parse(localStorage.getItem(`datadesk:mapping:${kind}`)??'{}')}catch{}
+    form.append(el('h3',{},sourceName(kind))); selectors[kind]={};
+    for(const key of COLUMNS[kind]) {
+      const select=el('select',{'aria-label':`${sourceName(kind)}: ${labels[key]}`},el('option',{value:''},'Vyberte sloupec'),...headers.map(h=>el('option',{value:h},`${h} — ${String(input[kind][0][h]??'').slice(0,50)}`)));
+      select.value=headers.includes(preset[key])?preset[key]:headers.includes(key)?key:'';
+      selectors[kind][key]=select;
+      form.append(el('label',{class:'file-input'},labels[key],select));
+    }
+  }
+  form.append(error,el('button',{type:'submit',class:'button primary'},'Potvrdit a zkontrolovat'),el('button',{type:'button',class:'button secondary',onclick:()=>{dialog.close();dialog.remove()}},'Zrušit'));
+  form.addEventListener('submit',event=>{
+    event.preventDefault();
+    try{
+      const maps=Object.fromEntries(['orders','shipments'].map(kind=>[kind,Object.fromEntries(Object.entries(selectors[kind]).map(([k,s])=>[k,s.value]))]));
+      const orders=mapColumns(input.orders,maps.orders,'orders'), shipments=mapColumns(input.shipments,maps.shipments,'shipments');
+      customScenario(orders,shipments,names);
+      for(const kind of ['orders','shipments'])try{localStorage.setItem(`datadesk:mapping:${kind}`,JSON.stringify(maps[kind]))}catch{}
+      dialog.close();dialog.remove();$('import-dialog').close();toast('Mapování potvrzeno, kontrola dokončena.');
+    }catch(e){error.textContent=e.message}
+  });
+  dialog.append(form); document.body.append(dialog); dialog.addEventListener('close',()=>dialog.remove(),{once:true});dialog.showModal();
+}
+const caseInput=el('input',{type:'file',accept:'.json,application/json',hidden:true});document.body.append(caseInput);
+const loadCase=el('button',{class:'button secondary',onclick:()=>caseInput.click()},'Otevřít případ');
+const saveCase=el('button',{class:'button secondary',onclick:async()=>{try{download('datadesk_pripad.json',await encodeCase(state),'application/json');toast('Případ obsahuje vstupy i poznámky. Uložte jej bezpečně.')}catch(e){toast(e.message)}}},'Uložit případ');
+document.querySelector('.heading-actions').append(loadCase,saveCase);
+caseInput.addEventListener('change',async()=>{
+ try{
+  const file=caseInput.files[0];if(!file)return;if(file.size>8_000_000)throw new Error('Případ může mít nejvýše 8 MB.');
+  const saved=await restoreCase(await file.text());
+  customScenario(saved.orders,saved.shipments,saved.names);
+  state.reviews=saved.reviews;state.history=saved.history;render();toast('Případ obnoven a nálezy znovu vypočítány.');
+ }catch(e){toast(e.message)}finally{caseInput.value=''}
+});

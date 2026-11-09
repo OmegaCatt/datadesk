@@ -1,3 +1,7 @@
+# Ověření 9. 11. 2026
+
+35 Node testů a 4 Python/SQL testy prošly. Browser QA ověřilo poznámku, export a obnovení případu, přepočet, mapování přejmenovaných sloupců a nulový počet nálezů čistého importu. Desktop 1440 px a mobil 390 px bez JS chyb a vodorovného přetečení. Při prvním průchodu opraveno přetečení tlačítek. Benchmark Node 24.22.1: medián 87,08 ms pro 10 000 + 10 000 a 152,56 ms pro 20 000 + 20 000; pět vzorků, výsledek závisí na zařízení. SQL report je obnovitelný CLI/CSV postup; hotový Power BI/Excel sešit a XLSX import zůstávají další etapou.
+
 # Verification record — 2026-10-29
 
 ## Regression check — 2026-10-31
