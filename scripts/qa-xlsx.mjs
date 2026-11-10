@@ -6,7 +6,7 @@ const server=createStaticServer();await new Promise(r=>server.listen(0,'127.0.0.
 try{
  browser=await chromium.launch({headless:true,...(process.env.PLAYWRIGHT_EXECUTABLE_PATH?{executablePath:process.env.PLAYWRIGHT_EXECUTABLE_PATH}:{})});
  const page=await browser.newPage({viewport:{width:1440,height:950},acceptDownloads:true}),errors=[];page.on('pageerror',e=>errors.push(e.message));
- await page.goto(`http://127.0.0.1:${server.address().port}`);await page.locator('#new-button').click();
+ await page.goto(process.env.DATADESK_QA_BASE_URL||`http://127.0.0.1:${server.address().port}`);await page.locator('#new-button').click();
  const sample=getScenario('clean');
  for(const [kind,columns,id] of [['orders',ORDER_COLUMNS,'orders-file'],['shipments',SHIPMENT_COLUMNS,'shipments-file']]){
   const b=XLSX.utils.book_new();XLSX.utils.book_append_sheet(b,XLSX.utils.aoa_to_sheet([['Návod'],['Vyberte list Export']]),'Návod');

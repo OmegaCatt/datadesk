@@ -45,3 +45,7 @@ Node.js 24.22.1, local development machine. Five measured runs after warmup: 20,
 - Imported values and review notes render as text. CSV export neutralizes spreadsheet formula prefixes. Import size, row count and field length are bounded; no API credentials are required or stored.
 - The source audit does not establish how a future static host enforces response headers. The private preview must be checked independently.
 - CSV is supported; XLSX, authenticated multi-user review, live integrations, AI features and a tamper-proof audit log are outside this version.
+
+## Veřejná dostupnost 10. 11. 2026
+
+https://omegacatt.github.io/datadesk/ ověřeno v prázdném browser kontextu bez přihlášení: HTTP 200, moduly/ukázka, uložení případu a mobil bez chyb/přetečení. Celá XLSX regrese proti skutečné veřejné URL prošla: worker, import dvou sešitů, list/hlavička, mapování, čistý výsledek, stažení reportu, odmítnutí vzorce bez ztráty stavu. Sada podporuje DATADESK_QA_BASE_URL; výchozí CI zůstává lokální. Galerie portfolio/ výslovně označuje serverové snímky jako zaznamenané výsledky.
