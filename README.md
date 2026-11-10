@@ -1,3 +1,5 @@
+**Veřejná funkční ukázka:** [datadesk](https://omegacatt.github.io/datadesk/) · [Galerie zaznamenaných serverových projektů](https://omegacatt.github.io/datadesk/portfolio/).
+
 # DataDesk
 
 Nově: explicitní oddělovač CSV a formát data s náhledem, uložené profily a další SQL analýzy. [Postup SQL](analysis/ANALYTICS.md). Datumový výklad je uložený vedle originálu; původní hodnota se nepřepisuje.
