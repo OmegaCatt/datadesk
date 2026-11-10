@@ -35,3 +35,7 @@ XLSX zpracovává vendored SheetJS ve workeru. ZIP guard před parserem počít�
 
 ## DD-1/2 dokončení
 Výklad datumu se ukládá do __dateFormat, patří do otisku a nemění originál. SQL analýzy přebírají znovu vypočtené nálezy z Node enginu; Python je nepřepisuje. Nálezy pro porovnání běhů mají obchodní otisk bez fyzických řádků a zachovávají násobnost.
+
+## AV-3/4: audit prezentace 10. 11. 2026
+
+Odkazy serverových projektů z GitHub About vedou na samostatné kotvy galerie. Stránka výslovně říká, že jde o uložené snímky, nikoli běžící AI/backend. Historické projektové/QA zápisy zůstávají v rozbaleném archivu; současný stav a ověření mají samostatný úvod.

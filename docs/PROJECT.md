@@ -1,3 +1,12 @@
+# Aktuální rozsah a kontrola 10. 11. 2026
+
+Aktuální funkce, technologie, API, způsob použití, firemní zavedení a omezení jsou v [README](../README.md). Znovu prošlo 45 Node + 9 Python testů a odpovídající skutečný browser průchod desktop/mobil. Jde o fiktivní portfolio projekt. Výsledky a případné opravy jsou v [QA](QA.md).
+
+Předchozí ověřený kód 75ec08f: [úspěšné GitHub Actions](https://github.com/OmegaCatt/datadesk/actions/runs/42730927126). Nový commit této revize má vlastní CI; aktuální stav je v hlavním protokolu portfolia. Níže uvedené historické plány nejsou seznam nehotových funkcí.
+
+<details>
+<summary>Historická projektová rozhodnutí a průběžné etapy</summary>
+
 ## DD-1/2 – 10. 11. 2026
 
 Hotovo: ruční oddělovač CSV (včetně svislé čáry), potvrzený výklad datumu s náhledem a profily, původní hodnoty i metadata v případu/otisku. Excel report má původní datum, použitý formát a normalizovaný den. Automatická volba nepřijímá nejednoznačná lomítka. Nové SQL analýzy: měsíční částky po měnách, otevřené nálezy podle obchodu/období a změny mezi dvěma ověřenými případy. Viz [analysis/ANALYTICS.md](../analysis/ANALYTICS.md).
@@ -41,3 +50,6 @@ Light workspace, dark navy navigation, warm neutral canvas, restrained teal acce
 ## Boundaries
 No login, billing, customer support, live business integrations or AI API in the first version. Do not claim Excel workbook support until implemented and tested. A review decision never modifies the source record. Demo review state may be browser-local and must be identified as such. GitHub publication is a separate step from local version control.
 
+
+
+</details>

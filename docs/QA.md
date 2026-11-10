@@ -1,3 +1,12 @@
+# Opakované ověření 10. 11. 2026
+
+**45 Node + 9 Python testů prošlo.** Znovu spuštěné prohlížečové QA ověřilo skutečný pracovní postup na dočasných fiktivních podkladech, desktop i mobil a JavaScript chyby. Nová kontrola zopakovala běžné i připravené chybové toky. Původní počet testů zůstává beze změny.
+
+Ověřený předchozí commit 75ec08f: [GitHub Actions](https://github.com/OmegaCatt/datadesk/actions/runs/42730927126); dostupnost jeho artefaktů byla ověřena. Aktuální revize dokumentace/oprav je kontrolována novým CI. Jeho přesný commit a výsledek jsou v hlavním Portfolio_PROGRESS.md. Staré věty o čekající publikaci v rozbaleném archivu platily jen pro dobu daného zápisu.
+
+<details>
+<summary>Historické výsledky, původní metriky a omezení</summary>
+
 ## DD-1/2 – 10. 11. 2026
 
 Hotovo: ruční oddělovač CSV (včetně svislé čáry), potvrzený výklad datumu s náhledem a profily, původní hodnoty i metadata v případu/otisku. Excel report má původní datum, použitý formát a normalizovaný den. Automatická volba nepřijímá nejednoznačná lomítka. Nové SQL analýzy: měsíční částky po měnách, otevřené nálezy podle obchodu/období a změny mezi dvěma ověřenými případy. Viz [analysis/ANALYTICS.md](../analysis/ANALYTICS.md).
@@ -49,3 +58,6 @@ Node.js 24.22.1, local development machine. Five measured runs after warmup: 20,
 ## Veřejná dostupnost 10. 11. 2026
 
 https://omegacatt.github.io/datadesk/ ověřeno v prázdném browser kontextu bez přihlášení: HTTP 200, moduly/ukázka, uložení případu a mobil bez chyb/přetečení. Celá XLSX regrese proti skutečné veřejné URL prošla: worker, import dvou sešitů, list/hlavička, mapování, čistý výsledek, stažení reportu, odmítnutí vzorce bez ztráty stavu. Sada podporuje DATADESK_QA_BASE_URL; výchozí CI zůstává lokální. Galerie portfolio/ výslovně označuje serverové snímky jako zaznamenané výsledky.
+
+
+</details>
