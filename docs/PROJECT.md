@@ -1,3 +1,9 @@
+# UX-1 až UX-7 – 11. 11. 2026
+
+Pískové a grafitové pracovní rozhraní s okrovým akcentem. Dekorativní gradient, blur, stíny a animace byly odstraněné; výpočet, zdroje, kontrolní stavy a exporty zůstávají stejné.
+
+Všech sedm aplikací má první přístupný dialog a stálé ovládání nápovědy v hlavičce. Playwright ověřuje skutečný první vstup, obě části, GitHub odkaz, Tab/Shift+Tab, Escape, návrat fokusu, potvrzení po reloadu a mobil. CompanyAtlas čeká s přihlášením na zavření úvodu; hlavička se testuje po přihlášení. Legacy pracovní průchody pokračují po skutečném zavření úvodu. Aktuální commit, CI a přesný rozsah ověření této etapy jsou vedené v hlavním Portfolio_PROGRESS.md; starší zápisy níže jsou historické.
+
 # Etapa ukázek 11. 11. 2026
 
 Aktuální průchody, galerie tří hlavních případů, skutečný CompanyAtlas bez AI a ověření přehrávače jsou popsány v README a docs/STATUS.md. Původní projektový audit níže zůstává historický.

@@ -23,6 +23,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm test
+      - run: pnpm check
       - run: python -m unittest discover -s analysis -v
       - run: pnpm qa:xlsx
       - run: node scripts/qa-formats.mjs
@@ -34,6 +35,7 @@ jobs:
         with:
           name: datadesk-xlsx-preview
           path: |
+            docs/guide*.png
             docs/preview-xlsx.png
             docs/demo*.png
             docs/portfolio*.png

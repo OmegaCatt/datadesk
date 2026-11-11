@@ -4,16 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="DataDesk: kontrola a porovnání objednávek s expedicí. Interaktivní portfolio na fiktivních datech.">
-  <meta name="theme-color" content="#112b36">
+  <meta name="theme-color" content="#302e2a">
   <title>DataDesk — kontrola objednávek</title>
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./style.css">
-  <script type="module" src="./app.mjs"></script>
-</head>
+  <script src="./guide.js" defer></script><script type="module" src="./app.mjs"></script>
+<link rel="stylesheet" href="./guide.css"></head>
 <body>
   <a class="skip" href="#main">Přeskočit na obsah</a>
   <aside class="sidebar" id="sidebar">
-    <a href="#overview" class="brand" aria-label="DataDesk — přehled"><span class="brand-mark"><i></i><i></i><i></i><i></i></span>DataDesk<span class="brand-dot">.</span></a>
+    <a href="#overview" class="brand" aria-label="DataDesk — přehled"><span class="brand-mark" aria-hidden="true">DD</span>DataDesk<span class="brand-dot">.</span></a>
     <div class="workspace"><span class="workspace-symbol">D</span><div><strong>Ukázkový prostor</strong><small>Datová kvalita</small></div><span class="workspace-arrow">⌄</span></div>
     <p class="nav-label">PRACOVNÍ PROSTOR</p>
     <nav aria-label="Hlavní navigace">
@@ -22,7 +22,7 @@
       <a href="#data" data-view="data"><span data-icon="table"></span>Zdrojová data</a>
       <a href="#rules" data-view="rules"><span data-icon="shield"></span>Kontrolní pravidla</a>
     </nav>
-    <div class="sidebar-note"><span data-icon="spark"></span><strong>Vyzkoušejte si kontrolu</strong><p>Fiktivní exporty. Skutečně spuštěné kontroly. Každá chyba má svůj původ.</p><button id="about-button">Jak ukázka funguje <span aria-hidden="true">↗</span></button></div>
+    <div class="sidebar-note"><span data-icon="file"></span><strong>Vyzkoušejte si kontrolu</strong><p>Fiktivní exporty. Skutečně spuštěné kontroly. Každá chyba má svůj původ.</p><button id="about-button">Jak ukázka funguje <span aria-hidden="true">↗</span></button></div>
     <div class="sidebar-foot"><span class="online-dot"></span>Portfolio demo <span>v0.1</span></div>
   </aside>
   <div class="app-shell">

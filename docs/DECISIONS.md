@@ -1,3 +1,7 @@
+# 11. 11. 2026 – UX-1/2
+
+První návod se zobrazuje jednou po potvrzení v daném prohlížeči; lze jej vždy znovu otevřít. Uchovává se pouze potvrzení, nikoli nová kopie vstupních dat. Nedostupné localStorage nesmí zablokovat aplikaci. Barvy jsou teplé a ploché; stavové chyby/závažnosti zůstávají rozlišitelné.
+
 # 11. 11. 2026 – DEMO-3 až DEMO-6
 
 Portfolio upřednostňuje tři srozumitelné případy. FlowBridge zůstává jako doplňková technická ukázka. Serverové funkce se nevydávají za veřejný backend; CompanyAtlas má skutečné video bez AI s titulky a dohledatelným scénářem. Nový průvodce DataDesku pracuje s aktuálním případem. HTTP Range vzniklo z reprodukovaného selhání seek v browser QA.

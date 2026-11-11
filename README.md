@@ -1,5 +1,12 @@
 # DataDesk
 
+## Orientace v aplikaci (11. 11. 2026)
+
+Při první návštěvě se otevře stručný návod. Po zavření si aplikace v tomto prohlížeči zapamatuje potvrzení; změna nemá vliv na obchodní data. V hlavičce lze kdykoli otevřít **Jak aplikaci používat** a **Technické informace**. Oba obsahy odkazují na úplný README zde na GitHubu. Pokud úložiště prohlížeče není dostupné, návod lze zavřít a aplikace dál funguje.
+
+Pískové a grafitové pracovní rozhraní s okrovým akcentem. Dekorativní gradient, blur, stíny a animace byly odstraněné; výpočet, zdroje, kontrolní stavy a exporty zůstávají stejné.
+
+
 **Kontrola kvality dat a párování objednávek se zásilkami.** Ze dvou CSV/XLSX exportů vzniknou dohledatelné nálezy, kontrolní případ, Excel report a reprodukovatelná SQL analýza.
 
 [Veřejná funkční aplikace](https://omegacatt.github.io/datadesk/) · [Galerie serverových projektů](https://omegacatt.github.io/datadesk/portfolio/) (označené záznamy) · [CI](https://github.com/OmegaCatt/datadesk/actions/workflows/ci.yml)
@@ -75,6 +82,9 @@ pnpm build
 Začít dvěma schválenými exporty, potvrdit význam identifikátorů, měn, stavů a pravidel. Ručně zkontrolovat referenční případy a dohodnout vlastníka opravy. Pro sdílení přidat účty, řízení přístupu, historii a retenci; pro automatický pravidelný běh konektor a monitoring. Chybí slíbený termín expedice, proto nelze tvrdit včasnost doručení. Současná ukázka neprovádí tiché opravy ani zápisy do e-shopu.
 
 ## English
+
+First-time visitors see a keyboard-accessible guide; persistent header buttons reopen usage and technical information with a link to this README. Acknowledgement is browser-local and does not store business records. A warm paper/graphite interface with an ochre accent replaces decorative gradients, blur, shadows and animation. Reconciliation, provenance and exports retain the same behavior.
+
 
 A fictional-data reconciliation app with source-row findings, CSV/XLSX imports, explicit mapping/date profiles, review notes, portable fingerprinted cases, a five-sheet Excel report and reproducible SQLite analysis. The same deterministic JavaScript engine runs in the browser and Node CLI; currencies remain separate and ambiguous duplicates are excluded from financial totals.
 

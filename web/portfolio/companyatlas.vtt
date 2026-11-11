@@ -1,33 +1,45 @@
 WEBVTT
 
 1
-00:00:00.000 --> 00:00:01.674
+00:00:00.000 --> 00:00:03.227
 Skutečný místní běh nad fiktivními daty. AI je v tomto záznamu vypnutá.
 
 2
-00:00:01.674 --> 00:00:03.245
+00:00:03.227 --> 00:00:04.806
 Přihlášení provozního účtu. Roli ověřuje server.
 
 3
-00:00:03.245 --> 00:00:09.458
-Kolik objednávek bylo v roce 2024? Počet spočítá SQLite.
+00:00:04.806 --> 00:00:06.837
+Provozní účet vidí objednávky a dodavatelské podklady. Karty otevírají skutečné dostupné dokumenty.
 
 4
-00:00:09.458 --> 00:00:13.618
-Dvanáct objednávek; ve zdroji jsou konkrétní započítané řádky.
+00:00:06.837 --> 00:00:13.055
+Kolik objednávek bylo v roce 2024? Počet spočítá SQLite.
 
 5
-00:00:13.618 --> 00:00:18.598
-Zúžení na Studio Javor. Pět objednávek, včetně jedné stornované.
+00:00:13.055 --> 00:00:17.204
+Dvanáct objednávek; ve zdroji jsou konkrétní započítané řádky.
 
 6
-00:00:18.598 --> 00:00:20.495
-Přepnutí na personální účet vyžaduje nové přihlášení a vymaže starou odpověď.
+00:00:17.204 --> 00:00:22.188
+Zúžení na Studio Javor. Pět objednávek, včetně jedné stornované.
 
 7
-00:00:20.495 --> 00:00:24.977
-Personální účet nemá přístup k objednávkám. Server dotaz odmítne bez výsledku.
+00:00:22.188 --> 00:00:24.099
+Přepnutí na personální účet vyžaduje nové přihlášení a vymaže starou odpověď.
 
 8
-00:00:24.977 --> 00:00:27.481
-Plná aplikace navíc umí textové PDF/DOCX a volitelné AI souhrny. Ty tento záznam neukazuje.
+00:00:24.099 --> 00:00:27.187
+Personální tým má vlastní ukázky: zaškolení, dovolenou a osobní podklad.
+
+9
+00:00:27.187 --> 00:00:32.173
+Personální účet nemá přístup k objednávkám. Server dotaz odmítne bez výsledku.
+
+10
+00:00:32.173 --> 00:00:37.204
+Vedení navíc otevře interní plán a serverový kontrolní panel.
+
+11
+00:00:37.204 --> 00:00:39.707
+Osm kontrol má očekávaný a skutečný výsledek. AI evaluace je samostatná; tento záznam AI nevolá.

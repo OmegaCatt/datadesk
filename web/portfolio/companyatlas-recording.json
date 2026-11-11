@@ -1,54 +1,71 @@
 {
-  "recordedAt": "2026-11-11T10:20:22.741Z",
-  "sourceCommit": "b0a9ba14b7d342fa847a00561f3424f0523687fd",
-  "scriptSha256": "5deb3cd5c762cdaa852ee9faf22e06175f48e4347fd8ea3dd1d4be047baff4c0",
+  "recordedAt": "2026-11-11T11:03:41.208Z",
+  "sourceCommit": "542533d06cf54e3394a8d2bef4e3828672b1509a",
+  "scriptSha256": "0b692c5797b1fed969c654473a508cb85c914479bf2ca12cbc77de737d1e9863",
   "mode": "actual local HTTP/SQLite, fictional temporary database, AI disabled",
   "verified": {
     "year2024": 12,
     "studioJavor": 5,
     "peopleAccess": "denied",
+    "qualityChecks": 8,
+    "peopleSourceOpened": true,
     "jsErrors": []
   },
   "captions": [
     {
       "start": 0,
       "text": "Skutečný místní běh nad fiktivními daty. AI je v tomto záznamu vypnutá.",
-      "end": 1.674
+      "end": 3.227
     },
     {
-      "start": 1.674,
+      "start": 3.227,
       "text": "Přihlášení provozního účtu. Roli ověřuje server.",
-      "end": 3.245
+      "end": 4.806
     },
     {
-      "start": 3.245,
+      "start": 4.806,
+      "text": "Provozní účet vidí objednávky a dodavatelské podklady. Karty otevírají skutečné dostupné dokumenty.",
+      "end": 6.837
+    },
+    {
+      "start": 6.837,
       "text": "Kolik objednávek bylo v roce 2024? Počet spočítá SQLite.",
-      "end": 9.458
+      "end": 13.055
     },
     {
-      "start": 9.458,
+      "start": 13.055,
       "text": "Dvanáct objednávek; ve zdroji jsou konkrétní započítané řádky.",
-      "end": 13.618
+      "end": 17.204
     },
     {
-      "start": 13.618,
+      "start": 17.204,
       "text": "Zúžení na Studio Javor. Pět objednávek, včetně jedné stornované.",
-      "end": 18.598
+      "end": 22.188
     },
     {
-      "start": 18.598,
+      "start": 22.188,
       "text": "Přepnutí na personální účet vyžaduje nové přihlášení a vymaže starou odpověď.",
-      "end": 20.495
+      "end": 24.099
     },
     {
-      "start": 20.495,
+      "start": 24.099,
+      "text": "Personální tým má vlastní ukázky: zaškolení, dovolenou a osobní podklad.",
+      "end": 27.187
+    },
+    {
+      "start": 27.187,
       "text": "Personální účet nemá přístup k objednávkám. Server dotaz odmítne bez výsledku.",
-      "end": 24.977
+      "end": 32.173
     },
     {
-      "start": 24.977,
-      "text": "Plná aplikace navíc umí textové PDF/DOCX a volitelné AI souhrny. Ty tento záznam neukazuje.",
-      "end": 27.481
+      "start": 32.173,
+      "text": "Vedení navíc otevře interní plán a serverový kontrolní panel.",
+      "end": 37.204
+    },
+    {
+      "start": 37.204,
+      "text": "Osm kontrol má očekávaný a skutečný výsledek. AI evaluace je samostatná; tento záznam AI nevolá.",
+      "end": 39.707
     }
   ]
 }

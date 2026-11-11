@@ -1,3 +1,7 @@
+# UI etapa UX-1/2 – 11. 11. 2026
+
+Nové barevné spektrum bez dekorativních efektů, úvodní návod a stálé technické/použivatelské informace s odkazy na README. Výsledky ověření, publikované commity a zbývající práce jsou v hlavním Portfolio_PROGRESS.md. Starší etapa níže zůstává historická.
+
 # Ukázky 11. 11. 2026 – DEMO-3/4/6
 
 Přidaný průchod skutečný nález → původní řádky → poznámka → Excel. Štítek vstupu odráží CSV/XLSX. Galerie má tři hlavní případy, čtyři rozbalitelné technické projekty a 27,48s skutečný místní záznam CompanyAtlasu s osmi českými titulky. AI při nahrávání vypnutá. Lokální server má správné MIME, adresářové indexy a jednorozsahové HTTP Range pro posun videa.

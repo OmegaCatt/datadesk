@@ -14,7 +14,8 @@
     "demo:report": "node scripts/cli.mjs",
     "build": "node scripts/build.mjs",
     "qa:xlsx": "node scripts/qa-xlsx.mjs",
-    "report:xlsx": "node scripts/export-workbook.mjs"
+    "report:xlsx": "node scripts/export-workbook.mjs",
+    "check": "node --check web/app.mjs && node --check web/guide.js && node --check scripts/guide-qa.mjs"
   },
   "devDependencies": {
     "playwright": "1.62.1"
