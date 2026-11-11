@@ -1,3 +1,9 @@
+# Ukázky 11. 11. 2026 – DEMO-3/4/6
+
+Přidaný průchod skutečný nález → původní řádky → poznámka → Excel. Štítek vstupu odráží CSV/XLSX. Galerie má tři hlavní případy, čtyři rozbalitelné technické projekty a 27,48s skutečný místní záznam CompanyAtlasu s osmi českými titulky. AI při nahrávání vypnutá. Lokální server má správné MIME, adresářové indexy a jednorozsahové HTTP Range pro posun videa.
+
+Místně prošlo: 46 Node + 9 Python testů, XLSX, CSV/formáty, nový průchod a galerie (přehrání/seek/titulky/obrázky/kotvy/mobil/klávesnice). Veřejné nasazení této etapy a přesné CI se zaznamenávají samostatně v hlavním protokolu; starší audit níže zůstává historický.
+
 # Opakované ověření 10. 11. 2026
 
 **45 Node + 9 Python testů prošlo.** Znovu spuštěné prohlížečové QA ověřilo skutečný pracovní postup na dočasných fiktivních podkladech, desktop i mobil a JavaScript chyby. Nová kontrola zopakovala běžné i připravené chybové toky. Původní počet testů zůstává beze změny.

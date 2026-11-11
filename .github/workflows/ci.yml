@@ -26,10 +26,16 @@ jobs:
       - run: python -m unittest discover -s analysis -v
       - run: pnpm qa:xlsx
       - run: node scripts/qa-formats.mjs
+      - run: node scripts/qa-demo.mjs
+      - run: node scripts/qa-portfolio.mjs
       - run: pnpm build
       - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: datadesk-xlsx-preview
-          path: docs/preview-xlsx.png
+          path: |
+            docs/preview-xlsx.png
+            docs/demo*.png
+            docs/portfolio*.png
+            docs/portfolio-qa.json
           retention-days: 7

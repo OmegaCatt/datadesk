@@ -1,3 +1,9 @@
+# Ukázky 11. 11. 2026 – DEMO-3/4/6
+
+Přidaný průchod skutečný nález → původní řádky → poznámka → Excel. Štítek vstupu odráží CSV/XLSX. Galerie má tři hlavní případy, čtyři rozbalitelné technické projekty a 27,48s skutečný místní záznam CompanyAtlasu s osmi českými titulky. AI při nahrávání vypnutá. Lokální server má správné MIME, adresářové indexy a jednorozsahové HTTP Range pro posun videa.
+
+Místně prošlo: 46 Node + 9 Python testů, XLSX, CSV/formáty, nový průchod a galerie (přehrání/seek/titulky/obrázky/kotvy/mobil/klávesnice). Veřejné nasazení této etapy a přesné CI se zaznamenávají samostatně v hlavním protokolu; starší audit níže zůstává historický.
+
 # Aktuální stav 10. 11. 2026
 
 DD-1 až DD-7 dokončené v dohodnutém portfoliovém rozsahu. Znovu prošlo 45 Node + 9 Python testů i oba browser průchody. Veřejné demo a galerie jsou na GitHub Pages; jejich dostupnost ověřuje zvláštní anonymní browser průchod. Současný popis: README.md; důkazy: docs/QA.md a hlavní protokol portfolia.

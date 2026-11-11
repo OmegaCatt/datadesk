@@ -1,0 +1,54 @@
+{
+  "recordedAt": "2026-11-11T10:20:22.741Z",
+  "sourceCommit": "b0a9ba14b7d342fa847a00561f3424f0523687fd",
+  "scriptSha256": "5deb3cd5c762cdaa852ee9faf22e06175f48e4347fd8ea3dd1d4be047baff4c0",
+  "mode": "actual local HTTP/SQLite, fictional temporary database, AI disabled",
+  "verified": {
+    "year2024": 12,
+    "studioJavor": 5,
+    "peopleAccess": "denied",
+    "jsErrors": []
+  },
+  "captions": [
+    {
+      "start": 0,
+      "text": "Skutečný místní běh nad fiktivními daty. AI je v tomto záznamu vypnutá.",
+      "end": 1.674
+    },
+    {
+      "start": 1.674,
+      "text": "Přihlášení provozního účtu. Roli ověřuje server.",
+      "end": 3.245
+    },
+    {
+      "start": 3.245,
+      "text": "Kolik objednávek bylo v roce 2024? Počet spočítá SQLite.",
+      "end": 9.458
+    },
+    {
+      "start": 9.458,
+      "text": "Dvanáct objednávek; ve zdroji jsou konkrétní započítané řádky.",
+      "end": 13.618
+    },
+    {
+      "start": 13.618,
+      "text": "Zúžení na Studio Javor. Pět objednávek, včetně jedné stornované.",
+      "end": 18.598
+    },
+    {
+      "start": 18.598,
+      "text": "Přepnutí na personální účet vyžaduje nové přihlášení a vymaže starou odpověď.",
+      "end": 20.495
+    },
+    {
+      "start": 20.495,
+      "text": "Personální účet nemá přístup k objednávkám. Server dotaz odmítne bez výsledku.",
+      "end": 24.977
+    },
+    {
+      "start": 24.977,
+      "text": "Plná aplikace navíc umí textové PDF/DOCX a volitelné AI souhrny. Ty tento záznam neukazuje.",
+      "end": 27.481
+    }
+  ]
+}

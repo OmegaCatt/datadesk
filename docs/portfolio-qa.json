@@ -1,0 +1,13 @@
+{
+  "url": "http://127.0.0.1:60564/portfolio/",
+  "checkedAt": "2026-11-11T10:29:53.939Z",
+  "primaryCases": 3,
+  "totalProjects": 7,
+  "videoSeconds": 27.48,
+  "captions": 8,
+  "playback": true,
+  "seek": true,
+  "mobile": true,
+  "jsErrors": [],
+  "httpFailures": []
+}

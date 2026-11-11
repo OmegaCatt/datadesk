@@ -4,6 +4,10 @@
 
 [Veřejná funkční aplikace](https://omegacatt.github.io/datadesk/) · [Galerie serverových projektů](https://omegacatt.github.io/datadesk/portfolio/) (označené záznamy) · [CI](https://github.com/OmegaCatt/datadesk/actions/workflows/ci.yml)
 
+## Ukázka za dvě minuty
+
+V aplikaci otevřete „Krátký průchod od chyby k reportu“: nález → původní řádky → poznámka → zdroje → skutečný Excel report. Tlačítka používají právě načtený případ a nepřepisují vlastní data. Bezchybný scénář nevytváří ukázkovou chybu. [Portfolio](https://omegacatt.github.io/datadesk/portfolio/) staví vedle sebe tři hlavní pracovní situace; ostatní projekty zůstávají rozbalitelné.
+
 ## Pracovní postup
 
 1. Vyberte jeden ze tří fiktivních scénářů nebo nahrajte objednávky a expedici. CSV nabízí výslovný oddělovač; XLSX výběr viditelného listu a hlavičky.
@@ -59,10 +63,12 @@ pnpm test
 python -m unittest discover -s analysis -v
 node scripts/qa-xlsx.mjs
 node scripts/qa-formats.mjs
+node scripts/qa-demo.mjs
+node scripts/qa-portfolio.mjs
 pnpm build
 ```
 
-45 Node a 9 Python testů. Browser QA: skutečné sešity, workery, list/hlavička, mapování, profil dat/oddělovače, report, odmítnutí vzorce bez ztráty případu a mobil. Celý XLSX průchod prošel i na skutečné veřejné URL bez přihlášení. Volitelné PLAYWRIGHT_EXECUTABLE_PATH / DATADESK_QA_BASE_URL, pro analytiku DATADESK_NODE. Detaily a měření v [QA](docs/QA.md); kód [b517386 úspěšně prošel CI](https://github.com/OmegaCatt/datadesk/actions/runs/42729968607).
+46 Node a 9 Python testů. Browser QA: skutečné sešity, workery, list/hlavička, mapování, profil dat/oddělovače, report, odmítnutí vzorce bez ztráty případu a mobil. Celý XLSX průchod prošel i na skutečné veřejné URL bez přihlášení. Volitelné PLAYWRIGHT_EXECUTABLE_PATH / DATADESK_QA_BASE_URL, pro analytiku DATADESK_NODE. Detaily a měření v [QA](docs/QA.md); kód [b517386 úspěšně prošel CI](https://github.com/OmegaCatt/datadesk/actions/runs/42729968607).
 
 ## Zavedení do firmy
 
@@ -74,4 +80,6 @@ A fictional-data reconciliation app with source-row findings, CSV/XLSX imports, 
 
 XLSX runs in bounded module workers with a locally vendored SheetJS build; formulas/macros/external links are rejected. Original values and date-interpretation metadata are retained. Case restoration validates and recalculates instead of trusting saved results. Python/SQL adds monthly amounts, open findings and cross-run transitions. Reports refresh by regeneration, not native Power Query.
 
-Use the public GitHub Pages app or node scripts/serve.mjs (4173). No LLM, API keys or upload service. 45 Node and 9 Python tests plus browser QA, including the full public XLSX workflow, passed. Company adoption needs agreed source contracts, ownership of corrections, shared access/audit/retention and a tested connector. Review notes are not data repair or a tamper-proof approval system.
+A guided walkthrough opens a real finding, preserves source data and exports the actual workbook. The portfolio gallery presents three main cases, two live apps and a clearly labelled local CompanyAtlas recording with captions.
+
+Use the public GitHub Pages app or node scripts/serve.mjs (4173). No LLM, API keys or upload service. 46 Node and 9 Python tests plus browser QA, including the full public XLSX workflow, passed. Company adoption needs agreed source contracts, ownership of corrections, shared access/audit/retention and a tested connector. Review notes are not data repair or a tamper-proof approval system.

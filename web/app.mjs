@@ -72,7 +72,7 @@ function reviewed(f) { return Object.hasOwn(state.reviews, f.id); }
 function openCount() { return state.result.findings.filter(f => !reviewed(f)).length; }
 function metric(label, value, hint, type, symbol) { return el('article', { class: `metric ${type ?? ''}` }, el('div', { class: 'metric-label' }, label, icon(symbol)), el('div', { class: 'metric-value' }, number(value)), el('div', { class: 'metric-hint' }, hint)); }
 function sectionHeading(title, note) { return el('div', { class: 'section-heading' }, el('h2', {}, title), el('span', {}, note)); }
-function sources() { return el('div', { class: 'source-grid' }, ...['orders', 'shipments'].map((kind, i) => el('div', { class: 'source-card' }, el('span', { class: 'source-icon' }, icon('file')), el('div', {}, el('strong', {}, state.names[i]), el('small', {}, `${sourceName(kind)} · ${countWord(state.result[kind].length, 'záznam', 'záznamy', 'záznamů')} · CSV`)), el('span', {}, icon('check'), 'Načteno')))); }
+function sources() { return el('div', { class: 'source-grid' }, ...['orders', 'shipments'].map((kind, i) => el('div', { class: 'source-card' }, el('span', { class: 'source-icon' }, icon('file')), el('div', {}, el('strong', {}, state.names[i]), el('small', {}, `${sourceName(kind)} · ${countWord(state.result[kind].length, 'záznam', 'záznamy', 'záznamů')} · ${/\.xlsx(?:\b|$)/i.test(state.names[i])?'XLSX':'CSV'}`)), el('span', {}, icon('check'), 'Načteno')))); }
 function empty(title, message) { return el('div', { class: 'empty' }, el('span', { class: 'empty-icon' }, icon('check')), el('h3', {}, title), el('p', {}, message)); }
 function findingsRows(rows) {
   const table = el('table', {}, el('thead', {}, el('tr', {}, ...['ZÁVAŽNOST', 'NÁLEZ', 'ZÁZNAM / E-SHOP', 'STAV', ''].map(t => el('th', { scope: 'col' }, t)))));
@@ -264,3 +264,6 @@ workbookButton.addEventListener('click',()=>{
  worker.onerror=()=>{finish();toast('Excel report se nepodařilo vytvořit.')};
  worker.postMessage({orders:state.scenario.orders,shipments:state.scenario.shipments,names:state.names,reviews:state.reviews});
 });
+
+$('demo-finding').onclick=()=>{const finding=state.result.findings.find(item=>item.severity==='error')||state.result.findings[0];if(finding)showDetail(finding);else{toast('V této kontrole není nález. Vyberte říjnový scénář, chcete-li si projít chybu.');$('scenario').focus();}};
+$('demo-export').onclick=()=>$('export-dialog').showModal();

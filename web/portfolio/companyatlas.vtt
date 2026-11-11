@@ -1,0 +1,33 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:01.674
+Skutečný místní běh nad fiktivními daty. AI je v tomto záznamu vypnutá.
+
+2
+00:00:01.674 --> 00:00:03.245
+Přihlášení provozního účtu. Roli ověřuje server.
+
+3
+00:00:03.245 --> 00:00:09.458
+Kolik objednávek bylo v roce 2024? Počet spočítá SQLite.
+
+4
+00:00:09.458 --> 00:00:13.618
+Dvanáct objednávek; ve zdroji jsou konkrétní započítané řádky.
+
+5
+00:00:13.618 --> 00:00:18.598
+Zúžení na Studio Javor. Pět objednávek, včetně jedné stornované.
+
+6
+00:00:18.598 --> 00:00:20.495
+Přepnutí na personální účet vyžaduje nové přihlášení a vymaže starou odpověď.
+
+7
+00:00:20.495 --> 00:00:24.977
+Personální účet nemá přístup k objednávkám. Server dotaz odmítne bez výsledku.
+
+8
+00:00:24.977 --> 00:00:27.481
+Plná aplikace navíc umí textové PDF/DOCX a volitelné AI souhrny. Ty tento záznam neukazuje.

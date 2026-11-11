@@ -1,3 +1,7 @@
+# 11. 11. 2026 – DEMO-3 až DEMO-6
+
+Portfolio upřednostňuje tři srozumitelné případy. FlowBridge zůstává jako doplňková technická ukázka. Serverové funkce se nevydávají za veřejný backend; CompanyAtlas má skutečné video bez AI s titulky a dohledatelným scénářem. Nový průvodce DataDesku pracuje s aktuálním případem. HTTP Range vzniklo z reprodukovaného selhání seek v browser QA.
+
 # Decisions
 
 ## 2026-11-01: Document a realistic adoption path

@@ -20,3 +20,5 @@ dialog{border:1px solid #dde6e7;border-radius:13px;padding:25px;width:min(540px,
 @media(max-width:600px){.tech-details summary span{display:block;float:none;margin-top:3px}}
 .heading-actions{flex-wrap:wrap}.page-heading>div{min-width:0}.file-input select{display:block;width:100%;min-width:0;max-width:100%;padding:9px;margin-top:6px}dialog form{min-width:0}@media(max-width:600px){.heading-actions{width:100%}.heading-actions .button{flex:1 1 45%}}
 .mapping-dialog{width:min(940px,calc(100vw - 28px))}.mapping-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px}.mapping-grid .file-input{margin-bottom:12px}.mapping-footer{grid-column:1/-1;position:sticky;bottom:-25px;background:#fff;border-top:1px solid #e5eaed;padding:10px 0 5px}.mapping-footer .form-error{margin:0 0 7px}@media(max-width:650px){.mapping-grid{grid-template-columns:minmax(0,1fr)}}
+
+.demo-steps{padding-top:12px}.demo-steps p{max-width:85ch}.demo-steps ol{padding-left:22px;line-height:1.7}.demo-actions{display:flex;gap:9px;flex-wrap:wrap}.demo-actions a{text-decoration:none}@media(max-width:600px){.demo-actions>*{flex:1 1 100%;justify-content:center;white-space:normal}}

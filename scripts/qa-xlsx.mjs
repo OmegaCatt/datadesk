@@ -21,6 +21,8 @@ try{
  await page.waitForFunction(()=>document.querySelector('#toast').textContent.includes('Mapování potvrzeno'));
  assert.match(await page.locator('#content').innerText(),/vše v pořádku/);
  assert.match(await page.locator('#content').innerText(),/orders.xlsx · Export/);
+ assert.equal(await page.locator('.source-card small').filter({hasText:'XLSX'}).count(),2);
+ await page.locator('#demo-finding').click();assert.equal(await page.locator('#detail-dialog').isVisible(),false);assert.equal(await page.locator('#scenario').inputValue(),'custom');assert.match(await page.locator('.source-grid').innerText(),/orders.xlsx/);
  await page.locator('[data-view="data"]').click();assert.equal(await page.locator('.data-table tbody tr td').first().textContent(),'3');
  await page.locator('#export-button').click();const downloadPromise=page.waitForEvent('download');await page.locator('#workbook-export').click();
  const downloaded=await downloadPromise;assert.equal(downloaded.suggestedFilename(),'datadesk_report.xlsx');

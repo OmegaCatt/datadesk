@@ -1,3 +1,7 @@
+# Etapa ukázek 11. 11. 2026
+
+Aktuální průchody, galerie tří hlavních případů, skutečný CompanyAtlas bez AI a ověření přehrávače jsou popsány v README a docs/STATUS.md. Původní projektový audit níže zůstává historický.
+
 # Aktuální rozsah a kontrola 10. 11. 2026
 
 Aktuální funkce, technologie, API, způsob použití, firemní zavedení a omezení jsou v [README](../README.md). Znovu prošlo 45 Node + 9 Python testů a odpovídající skutečný browser průchod desktop/mobil. Jde o fiktivní portfolio projekt. Výsledky a případné opravy jsou v [QA](QA.md).
