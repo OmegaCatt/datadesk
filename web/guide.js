@@ -13,8 +13,10 @@ const config={"name":"DataDesk","purpose":"Zkontrolujte, zda export objednávek 
  let opener=null;
  function render(kind){const isUse=kind==='use';title.textContent=(isUse?'Jak používat ':'Technické informace · ')+config.name;useTab.setAttribute('aria-pressed',String(isUse));techTab.setAttribute('aria-pressed',String(!isUse));body.replaceChildren();if(isUse){body.append(node('p',config.purpose,'guide-purpose'));const list=node('ol');for(const text of config.steps)list.append(node('li',text));body.append(list)}else{for(const text of config.tech)body.append(node('p',text))}body.append(node('p',config.limit,'guide-limit'));dialog.scrollTop=0;}
  function open(kind,trigger){opener=trigger||document.activeElement;render(kind);if(!dialog.open)dialog.showModal();start.focus({preventScroll:true})}
- usage.onclick=()=>open('use',usage);technical.onclick=()=>open('tech',technical);useTab.onclick=()=>render('use');techTab.onclick=()=>render('tech');close.onclick=start.onclick=()=>dialog.close();
- dialog.addEventListener('close',()=>{try{localStorage.setItem(key,'seen')}catch{}if(opener?.isConnected&&!document.querySelector('dialog[open]'))opener.focus({preventScroll:true})});
+ const acknowledge=()=>{try{localStorage.setItem(key,'seen')}catch{}};
+ dialog.addEventListener('cancel',acknowledge);
+ usage.onclick=()=>open('use',usage);technical.onclick=()=>open('tech',technical);useTab.onclick=()=>render('use');techTab.onclick=()=>render('tech');close.onclick=start.onclick=()=>{acknowledge();dialog.close()};
+ dialog.addEventListener('close',()=>{acknowledge();if(opener?.isConnected&&!document.querySelector('dialog[open]'))opener.focus({preventScroll:true})});
  dialog.addEventListener('keydown',event=>{if(event.key!=='Tab')return;const items=[...dialog.querySelectorAll('button:not(:disabled),a[href]')].filter(e=>e.getClientRects().length);const first=items[0],last=items.at(-1);if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus()}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus()}});
  let seen=false;try{seen=localStorage.getItem(key)==='seen'}catch{}if(!seen)open('use');
 })();
