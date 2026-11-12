@@ -1,3 +1,7 @@
+# Návod ke spuštění pro netechnické zájemce - 12. 11. 2026
+
+Dokončený místní postup: ZIP → rozbalení → PowerShell → node scripts/serve.mjs → http://127.0.0.1:4173. Čistá kopie bez runtime balíčků a bez env odpověděla správnou stránkou. Znovu 46 Node + 9 Python testů. Nová videa a rozšířená galerie zůstávají pouze v místním návrhu dle pokynu uživatele; do této dokumentační publikace nepatří.
+
 # UI etapa UX-1/2 – 11. 11. 2026
 
 Nové barevné spektrum bez dekorativních efektů, úvodní návod a stálé technické/použivatelské informace s odkazy na README. Výsledky ověření, publikované commity a zbývající práce jsou v hlavním Portfolio_PROGRESS.md. Starší etapa níže zůstává historická.

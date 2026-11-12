@@ -47,3 +47,8 @@ Výklad datumu se ukládá do __dateFormat, patří do otisku a nemění origin�
 ## AV-3/4: audit prezentace 10. 11. 2026
 
 Odkazy serverových projektů z GitHub About vedou na samostatné kotvy galerie. Stránka výslovně říká, že jde o uložené snímky, nikoli běžící AI/backend. Historické projektové/QA zápisy zůstávají v rozbaleném archivu; současný stav a ověření mají samostatný úvod.
+
+
+## 12. 11. 2026 - základní spuštění a vývojové kontroly
+
+README nabízí nejprve existující ukázku a přesný Windows postup bez instalace vývojových balíčků. Testy, Python analytika a technické podrobnosti zůstávají oddělené. Nové video materiály jsou připravené pouze místně; jejich zveřejnění je odložené na další výslovný pokyn uživatele.

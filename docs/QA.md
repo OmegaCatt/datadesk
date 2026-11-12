@@ -1,3 +1,11 @@
+# Ověření jednoduchého spuštění - 12. 11. 2026
+
+README začíná návodem pro netechnického zájemce: stažení a rozbalení ZIP, otevření PowerShellu ve složce, přesný příkaz, adresa v prohlížeči a ukončení Ctrl+C. Vývojové testy jsou oddělené, volitelné AI/PDF požadavky popsané samostatně.
+
+Ověřena nová kopie sledovaných zdrojů bez místních env souborů, uživatelských databází a předem instalovaného node_modules. Místní HTTP server vrátil 200 a správnou stránku aplikace. Pro zachování běžících služeb byla zvolena náhodná loopback adresa; hodnoty běžných portů v README odpovídají vstupním serverovým skriptům. ReleaseGuard doinstaloval runtime závislosti přes npm; CompanyAtlas použil nový Python venv a instalaci requirements.txt. Ostatní aplikace nepotřebují runtime balíčky pro základní ukázku.
+
+Znovu prošlo **46 Node + 9 Python testů**. Běžné pracovní průchody mají samostatné prohlížečové regrese v tomto repozitáři. Toto ověření nenahrazuje kontrolu instalátoru Node/Python na každém počítači ani nepředstavuje obecnou záruku správnosti.
+
 # Regrese UX-1b – rychlé zavření a reload
 
 První Linux main CI odhalilo závod: potvrzení úvodu v události close se někdy nestihlo zapsat před reloadem. Nyní se zapisuje synchronně v Escape/cancel a tlačítkách před zavřením; close je záložní cesta. Původní neúspěšný běh zůstává v Actions. Browser test stále provádí okamžitý reload, očekávání nebylo oslabeno ani přidán čekací čas.
