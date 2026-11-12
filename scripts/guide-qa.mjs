@@ -1,8 +1,19 @@
 import assert from 'node:assert/strict';import {mkdir} from 'node:fs/promises';import {fileURLToPath} from 'node:url';
 export async function dismissGuide(page){const dialog=page.locator('#guide-dialog');if(await dialog.count()&&await dialog.isVisible())await page.locator('#guide-start').click()}
+export async function verifyLateGuideClose(page){
+ await page.locator('#guide-tech').click();await page.locator('#guide-dialog').waitFor({state:'visible'});
+ const focused=await page.evaluate(async()=>{
+   const dialog=document.getElementById('guide-dialog');
+   const closed=new Promise(resolve=>dialog.addEventListener('close',()=>resolve(document.activeElement.id),{once:true}));
+   dialog.close();document.getElementById('guide-use').focus();return closed;
+ });
+ assert.equal(focused,'guide-use','A queued close must not steal an explicit later focus change');
+ await page.keyboard.press('Enter');assert.match(await page.locator('#guide-title').innerText(),/Jak používat/);
+ await page.locator('#guide-close').click();
+}
 export async function verifyGuideLinks(page){
  await page.locator('#guide-tech').click();await page.locator('#guide-dialog').waitFor({state:'visible'});assert.match(await page.locator('#guide-title').innerText(),/Technické informace/);assert.match(await page.locator('#guide-dialog a').getAttribute('href'),/^https:\/\/github.com\/OmegaCatt\/[a-z-]+#readme$/);assert.ok((await page.locator('.guide-content').innerText()).length>200);await page.keyboard.press('Escape');
- await page.locator('#guide-use').focus();await page.keyboard.press('Enter');assert.match(await page.locator('#guide-title').innerText(),/Jak používat/);await page.locator('#guide-close').click();assert.equal(await page.locator('#guide-use').evaluate(e=>document.activeElement===e),true);
+ await page.locator('#guide-use').focus();await page.keyboard.press('Enter');assert.match(await page.locator('#guide-title').innerText(),/Jak používat/);await page.locator('#guide-close').click();assert.equal(await page.locator('#guide-use').evaluate(e=>document.activeElement===e),true);await verifyLateGuideClose(page);
 }
 export async function verifyGuide(page,{login=false,storageFailure=false}={}){
  await page.locator('#guide-dialog').waitFor({state:'visible'});assert.match(await page.locator('#guide-title').innerText(),/Jak používat/);assert.equal(await page.locator('.guide-content ol li').count(),3);

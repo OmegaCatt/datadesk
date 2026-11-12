@@ -16,7 +16,13 @@ const config={"name":"DataDesk","purpose":"Zkontrolujte, zda export objednávek 
  const acknowledge=()=>{try{localStorage.setItem(key,'seen')}catch{}};
  dialog.addEventListener('cancel',acknowledge);
  usage.onclick=()=>open('use',usage);technical.onclick=()=>open('tech',technical);useTab.onclick=()=>render('use');techTab.onclick=()=>render('tech');close.onclick=start.onclick=()=>{acknowledge();dialog.close()};
- dialog.addEventListener('close',()=>{acknowledge();if(opener?.isConnected&&!document.querySelector('dialog[open]'))opener.focus({preventScroll:true})});
+ dialog.addEventListener('close',()=>{
+   acknowledge();
+   // close is queued: preserve an explicit focus change made after closing.
+   const active=document.activeElement;
+   const needsRestore=!active||active===document.body||active===document.documentElement||dialog.contains(active);
+   if(needsRestore&&opener?.isConnected&&!document.querySelector('dialog[open]'))opener.focus({preventScroll:true});
+ });
  dialog.addEventListener('keydown',event=>{if(event.key!=='Tab')return;const items=[...dialog.querySelectorAll('button:not(:disabled),a[href]')].filter(e=>e.getClientRects().length);const first=items[0],last=items.at(-1);if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus()}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus()}});
  let seen=false;try{seen=localStorage.getItem(key)==='seen'}catch{}if(!seen)open('use');
 })();

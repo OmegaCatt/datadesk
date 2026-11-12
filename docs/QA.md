@@ -1,3 +1,9 @@
+# Regrese DOC-5: fokus po zavření nápovědy - 12. 11. 2026
+
+Opožděná událost close už nepřepisuje mezitím výslovně přesunutý fokus. Původní chování se prokázalo v prohlížeči: technický dialog → zavření a okamžité zaměření tlačítka používání → starý close vracel fokus na technické tlačítko. Oprava zachová nové zaměření; Enter otevře správný návod. Stejná regrese je součástí skutečných browser kontrol, původní očekávání klávesnice ani rychlého reloadu nejsou oslabená. Záložní návrat fokusu zůstává zachovaný, pokud nové zaměření neexistuje.
+
+První neúspěšné OfferLens CI je [zachované v historii](https://github.com/OmegaCatt/offerlens/actions/runs/43320912740). Jde o omezenou opravu nápovědy, obchodní výpočty a data nemění.
+
 # Ověření jednoduchého spuštění - 12. 11. 2026
 
 README začíná návodem pro netechnického zájemce: stažení a rozbalení ZIP, otevření PowerShellu ve složce, přesný příkaz, adresa v prohlížeči a ukončení Ctrl+C. Vývojové testy jsou oddělené, volitelné AI/PDF požadavky popsané samostatně.
