@@ -6,11 +6,11 @@ Porovná objednávky se zásilkami, ukáže nesrovnalosti a připraví Excel rep
 
 ### Video ukázka
 
-**[Přehrát video — 0:47, bez zvuku](https://raw.githubusercontent.com/OmegaCatt/datadesk/main/docs/videos/datadesk.mp4)** · [Co ukázka předvádí](docs/VIDEO.md)
+**[Stáhnout video MP4 — 0:47, bez zvuku](https://raw.githubusercontent.com/OmegaCatt/datadesk/main/docs/videos/datadesk.mp4)** · [Co ukázka předvádí](docs/VIDEO.md)
 
-<a href="https://raw.githubusercontent.com/OmegaCatt/datadesk/main/docs/videos/datadesk.mp4"><img src="docs/videos/datadesk-poster.png" alt="Přehrát video aplikace DataDesk" width="720"></a>
+<a href="https://raw.githubusercontent.com/OmegaCatt/datadesk/main/docs/videos/datadesk.mp4"><img src="docs/videos/datadesk-poster.png" alt="Stáhnout video aplikace DataDesk" width="720"></a>
 
-Skutečný průchod aplikací s českými titulky a viditelnou myší. Klikněte na náhled nebo odkaz nad ním; není potřeba nic instalovat. [Soubor MP4 na GitHubu](https://github.com/OmegaCatt/datadesk/blob/main/docs/videos/datadesk.mp4).
+Skutečný průchod aplikací s českými titulky a viditelnou myší. Kliknutím na náhled stáhnete video MP4; po stažení jej otevřete v běžném přehrávači videa. Samotnou aplikaci není potřeba instalovat. [Soubor MP4 na GitHubu](https://github.com/OmegaCatt/datadesk/blob/main/docs/videos/datadesk.mp4).
 
 **[Prohlédnout veřejnou ukázku](https://omegacatt.github.io/datadesk/portfolio/#datadesk)** - bez instalace a přihlášení.
 
