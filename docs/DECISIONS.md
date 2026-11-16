@@ -1,3 +1,17 @@
+# 16. 11. 2026 — VID-9: schválená publikace u jednotlivých aplikací
+
+Uživatel nyní požádal o nahrání všech sedmi videí na GitHub. Tím se nahrazuje předchozí odklad zaznamenaný níže. Samostatné MP4 mají klikací náhled, délku a informaci o tichém záznamu blízko začátku README, před instalací. Zachovat schválené soubory a jejich původní zdrojové commity; nevytvářet novou galerii. Publikovat pouze explicitně vymezené mediální soubory a dokumentaci, zbytek workspace a nesouvisející změny ponechat místní.
+
+# 16. 11. 2026 — VID-8: CompanyAtlas jako schválený vzor
+
+Zachovat přesné MP4, metadata i skript CompanyAtlasu. Sdílený helper byl už shodný, přesto DataDesk svým obecným SVG CSS zmenšoval skutečnou myš na 20×20. Živá regrese potvrdila před/po 20×20 → 36×42 proti nezměněnému vzoru 36×42. Nahrávací vrstva proto vynucuje rozměry SVG a měří je během skutečného záznamu; obchodní CSS neměnit. Podle zpětné vazby má šest scénářů plynulejší návaznost a méně samostatných zastavení. Žádné dodatečné zrychlování skutečného běhu. Výsledky zůstávají čitelné 4–5 sekund. Uchovat staré verze a doložit nové scénáře i média; stále tiché, jednotlivě a bez publikace.
+
+# 16. 11. 2026 — VID-4 až VID-7: jednotlivé tiché záznamy
+
+Na přímý pokyn uživatele nevytvářet novou galerii a nová videa zatím nepublikovat. Každá aplikace má vlastní místní Full HD MP4, titulky přímo v obrazu a skutečný ukazatel/kliknutí. Bez mluveného komentáře, hudby i audio stopy. Původní již zveřejněné portfolio se zachovává.
+
+Kolize titulku s klikacím cílem řeší nahrávací vrstva přesunem titulku, nikoli úpravou obchodního rozhraní. Orientační VTT z doby zachycení zůstává v pracovním archivu; finální MP4 nespoléhá na zvlášť časovanou stopu. Metadata svazují přesný zdrojový commit, skripty a výsledný soubor. Tato místní etapová dokumentace se nepublikuje automaticky spolu se staršími návody.
+
 # 11. 11. 2026 – UX-1/2
 
 První návod se zobrazuje jednou po potvrzení v daném prohlížeči; lze jej vždy znovu otevřít. Uchovává se pouze potvrzení, nikoli nová kopie vstupních dat. Nedostupné localStorage nesmí zablokovat aplikaci. Barvy jsou teplé a ploché; stavové chyby/závažnosti zůstávají rozlišitelné.

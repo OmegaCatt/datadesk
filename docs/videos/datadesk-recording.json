@@ -1,0 +1,178 @@
+{
+  "recordedAt": "2026-11-16T15:02:26.756Z",
+  "sourceCommit": "84b5d5cdd1d52408954b21cc6b44a7a92f7b7036",
+  "scriptSha256": "83bdf356ccc005973a089b7612e7f3e615b1b6f7ea9687ebbaada2c6dbf784ff",
+  "helperSha256": "965b860d9ec7fb3d2a26c516544bc6e5d8cc331be3bd5de702eaed7b93dc1396",
+  "videoSha256": "d0b3013d20192c2c210b0ca5589b883b691d5362329dda69ebbc2aa5536e9002",
+  "mode": "actual isolated local HTTP/browser; fictional data; AI disabled; silent Full HD app-only recording",
+  "presentation": {
+    "width": 1920,
+    "height": 1080,
+    "captionFontPixels": 42,
+    "burnedInCaptions": true,
+    "visiblePointer": true,
+    "actualClickMarkers": true,
+    "audio": false,
+    "trimStartSeconds": 0.6,
+    "renderedOverlay": {
+      "topLayer": true,
+      "pointer": true,
+      "fontSize": "42px",
+      "pointerSvg": {
+        "width": 36,
+        "height": 42,
+        "fill": "rgb(255, 255, 255)",
+        "stroke": "rgb(17, 24, 32)"
+      },
+      "clickMarker": {
+        "width": 68,
+        "height": 68,
+        "border": 4,
+        "color": "rgb(216, 136, 24)"
+      }
+    }
+  },
+  "verified": {
+    "sourceRowsVisible": true,
+    "reviewNoteSaved": true,
+    "excelSheets": [
+      "Přehled",
+      "Objednávky",
+      "Expedice",
+      "Nálezy",
+      "Pravidla"
+    ],
+    "jsErrors": []
+  },
+  "captions": [
+    {
+      "start": 0.631,
+      "text": "DataDesk: kontrola objednávek a zásilek.",
+      "end": 4.152
+    },
+    {
+      "start": 4.152,
+      "text": "Dva exporty: objednávky a zásilky. Kontrola hledá nesrovnalosti a zachovává původní řádky.",
+      "end": 8.16
+    },
+    {
+      "start": 8.16,
+      "text": "Otevřeme konkrétní nalezený problém.",
+      "end": 12.067
+    },
+    {
+      "start": 12.067,
+      "text": "Konkrétní nález ukazuje očekávaný stav i původní záznamy.",
+      "end": 16.07
+    },
+    {
+      "start": 16.07,
+      "text": "Doplníme poznámku a nález označíme jako prověřený.",
+      "end": 20.488
+    },
+    {
+      "start": 20.488,
+      "text": "Kontrolní poznámka nezmění zdrojová data. Pouze zachytí, co má kolega prověřit.",
+      "end": 24.505
+    },
+    {
+      "start": 24.505,
+      "text": "Vrátíme se k původním exportům.",
+      "end": 28.755
+    },
+    {
+      "start": 28.755,
+      "text": "Zdrojové tabulky lze porovnat přímo v aplikaci.",
+      "end": 32.769
+    },
+    {
+      "start": 32.769,
+      "text": "Připravíme report a stáhneme jej do Excelu.",
+      "end": 38.46
+    },
+    {
+      "start": 38.46,
+      "text": "Excel report obsahuje pět listů včetně zdrojových dat a nálezů.",
+      "end": 44.646
+    },
+    {
+      "start": 44.646,
+      "text": "Podrobný návod ke spuštění najdete v README projektu.",
+      "end": 48.66
+    }
+  ],
+  "actions": [
+    {
+      "kind": "click",
+      "target": "demo-finding",
+      "x": 422.7890625,
+      "y": 539.9375,
+      "captionPosition": "bottom",
+      "captionOverlapsTarget": false,
+      "at": 10.901
+    },
+    {
+      "kind": "fill",
+      "target": "review-note",
+      "x": 1630,
+      "y": 921.140625,
+      "captionPosition": "top",
+      "captionOverlapsTarget": false,
+      "at": 17.329
+    },
+    {
+      "kind": "click",
+      "target": "Označit jako prověřené",
+      "x": 1452.0078125,
+      "y": 1031.828125,
+      "captionPosition": "top",
+      "captionOverlapsTarget": false,
+      "at": 19.67
+    },
+    {
+      "kind": "click",
+      "target": "Zavřít detail",
+      "x": 1876,
+      "y": 44,
+      "captionPosition": "bottom",
+      "captionOverlapsTarget": false,
+      "at": 25.714
+    },
+    {
+      "kind": "click",
+      "target": "2. Prohlédnout zdroje",
+      "x": 574.03125,
+      "y": 539.9375,
+      "captionPosition": "bottom",
+      "captionOverlapsTarget": false,
+      "at": 27.739
+    },
+    {
+      "kind": "click",
+      "target": "demo-export",
+      "x": 709.203125,
+      "y": 539.9375,
+      "captionPosition": "bottom",
+      "captionOverlapsTarget": false,
+      "at": 33.986
+    },
+    {
+      "kind": "click",
+      "target": "workbook-export",
+      "x": 960,
+      "y": 409.796875,
+      "captionPosition": "bottom",
+      "captionOverlapsTarget": false,
+      "at": 36.015
+    },
+    {
+      "kind": "click",
+      "target": "Zavřít export",
+      "x": 1189,
+      "y": 259.515625,
+      "captionPosition": "bottom",
+      "captionOverlapsTarget": false,
+      "at": 43.723
+    }
+  ]
+}

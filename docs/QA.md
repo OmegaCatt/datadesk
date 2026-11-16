@@ -1,3 +1,11 @@
+# VID-9: samostatná video ukázka — 16. 11. 2026
+
+[Video, scénář a omezení](VIDEO.md). MP4 47.40 s, Full HD 1920×1080 / 25 fps, H.264/yuv420p, bez audio stopy, české titulky v obrazu, viditelná myš a zvýrazněná skutečná kliknutí. Zdrojový commit aplikace `84b5d5cdd1d52408954b21cc6b44a7a92f7b7036`; kontrolované výsledky a otisky jsou v [metadatech](videos/datadesk-recording.json).
+
+Před publikací prošlo celé dekódování, samostatné přehrání a posun v prohlížeči a kontrola obrazových snímků titulkových úseků a kliknutí. Scénář používá izolovaná fiktivní data a nevolá AI API. Rozměry ukazatele a klikacího kruhu odpovídají ověřenému vzoru CompanyAtlasu; u šesti nových záznamů jsou skutečně vykreslené hodnoty i v metadatech. Výsledek se ověřuje před výsledkovým titulkem.
+
+Tato mediální etapa nemění obchodní logiku aplikace. Nejde o nové měření kvality AI nebo obecnou záruku správnosti; předchozí unit/browser výsledky níže mají vlastní datum a rozsah. Nové výsledky CI patří k publikačnímu commitu v GitHub Actions.
+
 # Regrese DOC-5: fokus po zavření nápovědy - 12. 11. 2026
 
 Opožděná událost close už nepřepisuje mezitím výslovně přesunutý fokus. Původní chování se prokázalo v prohlížeči: technický dialog → zavření a okamžité zaměření tlačítka používání → starý close vracel fokus na technické tlačítko. Oprava zachová nové zaměření; Enter otevře správný návod. Stejná regrese je součástí skutečných browser kontrol, původní očekávání klávesnice ani rychlého reloadu nejsou oslabená. Záložní návrat fokusu zůstává zachovaný, pokud nové zaměření neexistuje.

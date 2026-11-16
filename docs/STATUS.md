@@ -1,6 +1,12 @@
+# VID-9: video v README — 16. 11. 2026
+
+[Video DataDesku](VIDEO.md), 47.40 s, Full HD / 25 fps, české titulky v obrazu, viditelná myš a skutečné kliknutí, žádná audio stopa. Klikací náhled a přímý MP4 odkaz jsou na začátku README před návodem k instalaci. Video předvádí původní řádky, kontrolní poznámku a ověřený pětilistý XLSX.
+
+Uživatel nyní výslovně povolil publikaci videí; dřívější odklad je nahrazený VID-9. Publikuje se pouze video, popisky, metadata a nahrávací skripty. Obchodní logika i původní veřejné portfolio zůstávají stejné. Přesný commit, vzdálené soubory a CI se ověřují po publikaci a zapisují do hlavního protokolu portfolia. Místní pracovní kopie obsahuje i další nezveřejňované soubory.
+
 # Návod ke spuštění pro netechnické zájemce - 12. 11. 2026
 
-Dokončený místní postup: ZIP → rozbalení → PowerShell → node scripts/serve.mjs → http://127.0.0.1:4173. Čistá kopie bez runtime balíčků a bez env odpověděla správnou stránkou. Znovu 46 Node + 9 Python testů. Nová videa a rozšířená galerie zůstávají pouze v místním návrhu dle pokynu uživatele; do této dokumentační publikace nepatří.
+Dokončený místní postup: ZIP → rozbalení → PowerShell → node scripts/serve.mjs → http://127.0.0.1:4173. Čistá kopie bez runtime balíčků a bez env odpověděla správnou stránkou. Znovu 46 Node + 9 Python testů. Historický první návrh videí byl později nahrazen jednotlivými soubory; aktuální stav 16. 11. je uvedený výše. Nová videa do dokumentační publikace z 12. 11. nepatřila.
 
 # UI etapa UX-1/2 – 11. 11. 2026
 
